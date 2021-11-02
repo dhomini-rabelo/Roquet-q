@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     # My apps
     'asks.AsksConfig',
     'room.RoomConfig',
+    'api.ApiConfig',
     # Others apps
 ]
 
