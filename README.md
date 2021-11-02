@@ -1,2 +1,2 @@
-# Roquet-q
- Live-Questions usando API
+# Live-Asks
+ Projeto para responder perguntas em uma live 

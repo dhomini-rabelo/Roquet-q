@@ -1,0 +1,56 @@
+@charset "UTF-8";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font */
+  user-select: none;
+}
+
+html{
+  --black: #0D114F;
+  --white: #FAFAFA;
+  --red: #E83F5B;
+  --light-blue: #E0ECFF;
+  --blue: #3485FF;
+  --background: #F6FAFF;
+  --overlay: #040911;
+  --icons-details: #A5B0C1;
+
+  --grey-dark: #4D5E77;
+  --grey-blue: #A1B2CD;
+  --grey-light:#E5EAF1;
+  --grey-medium: #eaecf2;
+
+  font-size: 62.5%
+}
+
+
+.title{
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  
+}
+
+
+input[type=number] { 
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+input{
+  outline: none;
+}
+
+li{
+  list-style: none;
+}
+
+a{
+  text-decoration: none;
+}

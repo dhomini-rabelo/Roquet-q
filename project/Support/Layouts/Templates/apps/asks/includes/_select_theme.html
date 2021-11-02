@@ -1,0 +1,12 @@
+<select class="select-main">
+    <option value="0">Selecionar tema</option>
+    {% if themes %}
+    {% for theme in themes %}
+    {% if selected and selected == theme.name %}
+    <option value="1" selected>{{ theme.name }}</option>
+    {% else %}
+    <option value="1">{{ theme.name }}</option>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+</select>

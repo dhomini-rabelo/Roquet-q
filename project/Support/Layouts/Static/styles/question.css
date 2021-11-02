@@ -1,0 +1,133 @@
+#container {
+    width: min(90rem, 90%);
+    margin: 0 auto;
+    margin-top: 2.5rem;
+}
+
+header{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+li{
+    list-style: none;
+    display: inline;
+}
+
+.nav-pc{
+    display: inline;
+}
+
+.nav-pc a{
+    font-size: 1.6rem;
+    margin-left: 1rem;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    color: var(--black);
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.nav-pc a:active, .nav-pc a:hover{
+    font-weight: 700;
+}
+
+.sub-nav{
+    margin-block: 3rem 4.1rem;
+    text-align: center;
+}
+
+.sub-link{
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    display: inline-block;
+    text-align: center;
+    width: 35%;
+    font-size: 1.5rem;
+}
+
+.sub-link a{
+    display: block;
+    color: var(--black);
+}
+
+
+.copy{
+    background-color: white;
+    color: #3485FF;
+    width: 12.5rem;
+    height: 4rem;
+    font-size: 1.6rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 2.4rem;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    border: 0.2rem solid #3485FF;
+    border-radius: 0.8rem;
+    cursor: pointer;
+}
+
+.copy-img{
+    margin-right: 0.15rem;
+    position: relative;
+    top: -0.1rem;
+}
+
+.copy:hover{
+    background-color: var(--blue);
+    color: white;
+}
+
+
+.sub-title-active{
+    padding-bottom: 0.4rem;
+    border-bottom: solid 1px var(--blue);
+}
+
+.poppins{
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.open{
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+.question{
+    width: 90rem;
+}
+
+.app.select .my-questions{
+    display: none;
+}   
+
+.app.select .my-questions.visible{
+    display: block;
+}  
+
+.app{
+    width: 100%;
+}
+
+.alert{
+    font-size: 1.5rem;
+     width: 100%;
+}
+
+.questions-representation{
+    display: block;
+    margin: 7rem auto 0 auto;
+}
+
+
+.my-questions.qr {
+    background-color: white;
+}
+
+
+@media(max-width: 1050px) {
+    .question{
+        width: 90vw;
+    }
+}

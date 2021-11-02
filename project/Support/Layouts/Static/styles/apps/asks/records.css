@@ -1,0 +1,27 @@
+a[focus="3"]{
+    font-weight: 700;
+}
+
+a[focus="2"]{
+    font-weight: 500;
+}
+
+a[focus="1"]{
+    font-weight: 500;
+}
+
+.sub-link{
+    width: 40%;
+}
+
+.survey-option{
+    cursor: auto;  
+}
+
+.survey-option:hover{
+    border: 1.5px solid #000;  
+}
+
+.icon-text li{
+    cursor: default;
+}

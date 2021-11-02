@@ -1,0 +1,114 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+
+{% block branding %}
+    <h1 id="head">
+        <a href="http://127.0.0.1:8000/admin/">
+            <img src="{% static 'assets/global/logo.svg' %}">
+        </a>
+    </h1>
+{%endblock%}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'admin/admin.css' %}">
+<style>
+#branding h1,
+#branding h1 a,
+#branding h1 a:link,
+#branding h1 a:visited {
+    color: #FFFFFF;
+}
+
+#header{
+    background: #E0ECFF;
+    color: #0D114F;
+}
+
+#user-tools a:focus, #user-tools a:hover, #user-tools a{
+    border-bottom-color: #0a0e49;
+    color: #0a0e49;
+}
+
+a:link, a:visited {
+    color: #3485FF;
+}
+
+.module h2, .module caption, .inline-group h2 {
+    background: #3485FF;
+    color: #FFFFFF;
+}
+
+div.breadcrumbs {
+    background: #3485FF;
+    color: #FFFFFF;
+}
+
+.paginator a:link, .paginator a:visited {
+    background: #3485FF !important;
+    color: #FFFFFF;
+}
+
+.paginator a:hover {
+    background: #E0ECFF !important;
+    color: #FFFFFF;
+}
+
+.button.default, input[type=submit].default, .submit-row input.default {
+    background: #3485FF;
+}
+
+.button.default:active,
+input[type=submit].default:active,
+.button.default:focus,
+input[type=submit].default:focus,
+.button.default:hover,
+input[type=submit].default:hover {
+    background: #E0ECFF;
+}
+
+.object-tools a:focus, .object-tools a:hover {
+    background-color: #3485FF;
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    background: #E0ECFF;
+    color: #FFFFFF;
+}
+.button:active,
+input[type=submit]:active,
+input[type=button]:active,
+.button:focus,
+input[type=submit]:focus,
+input[type=button]:focus,
+.button:hover,
+input[type=submit]:hover,
+input[type=button]:hover {
+    background-color: #3485FF;
+}
+
+#changelist-filter li.selected a {
+    color: #3485FF !important;
+}
+
+#changelist-filter a:focus,
+#changelist-filter a:hover,
+#changelist-filter li.selected a:focus,
+#changelist-filter li.selected a:hover {
+    color: #E0ECFF !important;
+}
+
+.selector-chosen h2 {
+    background: #3485FF !important;
+    color: #FFFFFF;
+}
+
+a.active.selector-chooseall:focus,
+a.active.selector-clearall:focus,
+a.active.selector-chooseall:hover,
+a.active.selector-clearall:hover {
+    color: #3485FF !important;
+}
+
+
+</style>
+{% endblock %}

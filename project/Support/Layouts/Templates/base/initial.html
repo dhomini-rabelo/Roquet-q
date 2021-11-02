@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+{% load cache %}
+{% load static %}
+
+
+{% block content %}
+<header>
+    <div class="title">
+        <a href="{% url 'home' %}">
+            <img src="{% static 'assets/global/logo.svg' %}" alt="logo" id="logo">
+        </a>
+    </div>
+</header>
+{% include 'base/includes/_messages.html' %}
+<main class="row">
+    {% cache 240 main_img %}
+    <div class="col main-img">
+        <img src="{% static 'assets/apps/room/home/person.svg' %}" alt="ask-person">
+    </div>
+    {% endcache %}
+    <div class="col definition">
+        {% block definition %}
+        {% endblock %}
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base/initial.html' %}
+{% load static %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'styles/initial.css' %}">
+<link rel="stylesheet" href="{% static  'styles/apps/room/home.css' %}">
+{% endblock %}
+
+{% block definition %}
+        <div class="choices">
+            <section class="choice">
+                <h2 class="sub-title">Entre como espectador</h2>
+                <p class="actions">
+                    Faça perguntas, escolha as melhores perguntas e participe de enquetes
+                </p>
+                <a href="{% url 'enter_room' %}">
+                    <button class="button-white-blue enter">
+                        <img src="{% static 'assets/apps/room/home/enter-blue.svg' %}" alt="group" class="button-img blue-img">
+                        <img src="{% static 'assets/apps/room/home/enter-white.svg' %}" alt="group" class="button-img white-img">
+                        Entrar na sala
+                    </button>
+                </a>
+            </section>
+            <div class="or-content">
+                <div class="or">
+                    <div class="line"><hr></div>
+                    <div id="or">ou</div>
+                    <div class="line"><hr></div>
+                </div>
+            </div>
+            <section class="choice">
+                <h2 class="sub-title">Crie sua sala, de forma fácil e rápida</h2>
+                <p class="actions">
+                    Respondas as principais perguntas, colha feedbacks e crie enquetes
+                </p>
+
+                <a href="{% url 'create_room' %}">
+                    <button class="button-white-blue group">
+                        <img src="{% static 'assets/apps/room/home/group-blue.svg' %}" alt="group" class="button-img blue-img">
+                        <img src="{% static 'assets/apps/room/home/group-white.svg' %}" alt="group" class="button-img white-img">
+                        Criar sala
+                    </button>
+                </a>
+            </section>
+        </div>
+{% endblock %}
+
+{% block javascript %}
+<script src="{% static  'scripts/apps/room/home/changeImages.js' %}"></script>
+{% endblock %}

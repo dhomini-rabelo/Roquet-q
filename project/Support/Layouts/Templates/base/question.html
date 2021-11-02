@@ -1,0 +1,49 @@
+{% load static %}
+{% load cache %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include 'base/includes/_head.html' %}
+    <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/global/logo.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'styles/question.css' %}">
+    {% block links %}
+    {% endblock %}
+    <title>{% block title %}Rocket.q{% endblock %}</title>
+</head>
+<body>
+    <div id="container">
+        {% cache 1800 header %}
+            <header>
+                <a href="{% url 'records' code %}"><img src="{% static 'assets/apps/asks/global/logo.svg' %}" alt="logo"></a>
+                <div class="header-division">
+                    <button class="copy white-and-blue">
+                        <span class="copy-span">#{{code}}</span>
+                        <img src="{% static 'assets/apps/asks/global/copy-blue.svg' %}" alt="copy-img" class="copy-img" id="blue-img" style="display: inline-block;">
+                        <img src="{% static 'assets/apps/asks/global/copy-white.svg' %}" alt="copy-img" class="copy-img" id="white-img" style="display: none;">
+                    </button>
+                    <nav class="nav-pc">
+                        <a href="{% url 'ask' code %}" focus="1">Pergunta</a>
+                        <a href="{% url 'vote' code %}" focus="2">Votação</a>
+                        <a href="{% url 'records' code %}" focus="3">Registros</a>
+                        <a href="{% url 'settings' code %}" focus="4">Configurações</a>
+                    </nav>
+                </div>
+            </header>
+        {% endcache %}
+        {% include 'base/includes/_messages.html' %}
+        <main>
+            {% block content %}
+            {% endblock %}
+        </main>
+    </div>
+    <script type="module" src="{% static  'scripts/apps/asks/focusForSubTitle.js' %}"></script>
+    <script src="{% static  'scripts/apps/asks/changeImageCollor.js' %}"></script>
+    <script src="{% static  'scripts/apps/asks/copy.js' %}"></script>
+    <script type="module" src="{% static  'scripts/apps/asks/selectForTheme.js' %}"></script>
+    <script src="{% static  'scripts/messages.js' %}"></script>
+    {% block javascript %}{% endblock %}
+    <input type="text" id="the_code" value="localhost:8000/{{code}}" style="opacity: 0.0001;">
+</body>
+</html>

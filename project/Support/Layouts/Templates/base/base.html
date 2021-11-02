@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include 'base/includes/_head.html' %}
+    <link rel="stylesheet" href="{% static 'styles/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/base.css' %}">
+    <link rel="shortcut icon" href="{% static 'assets/global/logo.ico' %}" type="image/x-icon">
+    {% block links %}
+    {% endblock %}
+    <title>{% block title %}Rocket.q{% endblock %}</title>
+</head>
+<body>
+    <div id="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% block javascript %}{% endblock %}
+</body>
+</html>

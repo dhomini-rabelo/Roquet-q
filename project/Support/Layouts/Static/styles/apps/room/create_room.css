@@ -1,0 +1,72 @@
+.sub-title {
+    text-align: center;
+}
+
+input{
+    display: block;
+    width: 20rem;
+    margin: 1rem auto;
+    outline: none;
+    border: 2px solid #A1B2CD;
+    height: 3.4rem;
+    border-radius: 0.6rem;
+    text-indent: 1rem;
+}
+
+input::placeholder{
+    color: #A1B2CD;
+    text-indent: 1rem;
+}
+
+.button-blue-white{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem 5rem;
+    border: 0.175rem solid #3485FF;
+    border-radius: 0.5rem;
+    background-color: #3485FF;
+    color: white;
+    font-weight: 400;
+    margin: 0 auto;
+    width: 20rem;
+    height: 3.4rem;
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    user-select: none;
+}
+
+.button-img{
+    height: 1.2rem;
+    width: 1.2rem;
+    margin-right: 0.5rem;
+}
+
+.white-img{
+    display: block;
+}
+
+.blue-img{
+    display: none;
+}
+
+.button-blue-white:hover{
+    background-color: white;
+    color: #3485FF;
+}
+
+#id_password{
+    margin-bottom: 0rem;
+}
+
+.support{
+    margin-left: 1.5rem;
+    font-size: 0.8rem;
+    color: #A1B2CD;
+}
+
+@media(min-width: 1175px){
+    .support{
+        margin-left: 3rem;
+    }
+}

@@ -1,0 +1,143 @@
+{% extends 'base/question.html' %}
+{% load static %}
+{% load cache %}
+
+{% block links %}
+<link rel="stylesheet" href="{% static 'styles/apps/asks/ask.css' %}">
+<link rel="stylesheet" href="{% static 'styles/apps/asks/vote.css' %}">
+<link rel="stylesheet" href="{% static 'styles/apps/asks/settings.css' %}">
+<style>
+    .app{display: none;}
+    .visible{display: inline-block;}
+    .invisible{display: none;}
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% cache 1800 settings_sub_header %}
+<nav class="sub-nav">
+    <div class="sub-link" focus="temas">
+        <a href="#temas">Temas</a>
+    </div>
+    <div class="sub-link" focus="dados">
+        <a href="#dados">Dados</a>
+    </div>
+    <div class="sub-link" focus="sala">
+        <a href="#sala">Sala</a>
+    </div>
+</nav>
+{% endcache %}
+
+
+<div class="app">
+    {% if active_themes|length > 0 %}
+    <h1>Ativos</h1>
+    {% endif %}
+    {% if not admin %}
+    {% for theme in active_themes %}
+    <div class="theme">
+        <span>{{ theme.name }}</span>
+    </div>
+    <br>
+    {% endfor %}
+    {% else %}
+    {% for theme in active_themes %}
+    <form class="theme" method="POST">
+        {% csrf_token %}
+        <span>{{ theme.name }}</span>
+        <input type="hidden" name="theme" id="id_theme" value="{{ theme.name }}">
+        <button type="submit" class="icon-text" name="action" id="id_action" value="disable">
+            <img src="{% static 'assets/apps/asks/settings/remove.png' %}" alt="disable-img">
+            <span>Desativar</span>
+        </button>
+    </form>
+    <br>
+    {% endfor %}
+    {% endif %}
+    {% if disabled_themes|length > 0 %}    
+    <h1>Inativos</h1>
+    {% endif %}    
+    {% for theme in disabled_themes %}
+    <div class="theme">
+        <span>{{ theme.name }}</span>
+    </div>
+    <br>
+    {% endfor %}
+    
+    {% if admin %}
+    <h2>Criar temas</h2>
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <input type="text" name="theme" id="id_theme" placeholder="Tema">
+        <button type="submit" class="button-blue-white" name="action" id="id_action" value="add">Adicionar Tema</button>
+    </form>
+    {% endif %}
+</div>
+
+
+<div class="app">
+    <h1>Principais dados da sala</h1>
+
+    <div class="theme" style="font-weight: bold;">
+        <span>Criador:</span>
+        <span>{{ room.creator }}</span>
+    </div>
+    <br>
+    <div class="theme" style="font-weight: bold;">
+        <span>Total de perguntas:</span>
+        <span>{{ total_of_questions }}</span>
+    </div>
+    <br>
+    <div class="theme" style="font-weight: bold;">
+        <span>Visitas:</span>
+        <span>{{ room.visits }}</span>
+    </div>
+    <br>
+    
+    {% if active_themes|length > 0 or disabled_themes|length > 0 %}
+    <h1>Dados de temas</h1>
+    {% endif %}
+    {% for theme in active_themes %}
+    <h2>{{ theme.name }}</h2>
+    <div class="theme" style="font-weight: bold;">
+        <span>Criador:</span>
+        <span>{{ theme.creator }}</span>
+    </div>
+    <br>
+    <div class="theme" style="font-weight: bold;">
+        <span>Total de perguntas:</span>
+        <span>{{ theme.questions.count }}</span>
+    </div>
+    {% endfor %}
+    <br>
+    {% for theme in disabled_themes %}
+    <h2>{{ theme.name }}</h2>
+    <div class="theme" style="font-weight: bold;">
+        <span>Criador:</span>
+        <span>{{ theme.creator }}</span>
+    </div>
+    <br>
+    <div class="theme" style="font-weight: bold;">
+        <span>Total de perguntas:</span>
+        <span>{{ theme.questions.count }}</span>
+    </div>
+    {% endfor %}    
+</div>
+
+
+<div class="app">
+    {% if not admin %}
+    <h2>Virar admin</h2>
+    <form method="post" autocomplete="off">
+        {% csrf_token %}
+        <input type="password" name="password" id="id_password" placeholder="Senha de admin">
+        <button type="submit" class="button-blue-white" name="action" id="id_action" value="change">Virar admin</button>
+    </form>
+    {% endif %}
+    <h2>Sair da sala</h2>
+    <a href="{% url 'logout' %}"><button class="button-blue-white button-red-white">Sair da sala</button></a>
+</div>
+
+
+{% endblock %}
