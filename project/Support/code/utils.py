@@ -21,8 +21,8 @@ def get_type(obj):
 
 def filters(string: str, new_type='strip'):
     alloweds_new_types = ['strip', 'name', 'only_numbers', 'money_br']
-    if string is None:
-        pass
+    if not isinstance(string, str):
+        return string
     elif new_type == 'strip':
         return string.strip()
     elif new_type == 'name':
@@ -52,7 +52,7 @@ def filters(string: str, new_type='strip'):
         for letter in string:
             if letter in list('0123456789,'):
                 new_string += letter
-        return new_string.replace(',', '.')        
+        return new_string.replace(',', '.')       
            
             
 

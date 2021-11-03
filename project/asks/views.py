@@ -31,7 +31,7 @@ def ask(request, code):
         process = verify_process__ask(request)
         
         if process['action'] == 'register_question':
-            operation = validate_question(request, code)
+            operation = validate_question(request.POST, code)
             if operation['response'] == 'valid':
                 register_question(request, code)
                 messages.success(request, 'Pergunta registrada com sucesso')

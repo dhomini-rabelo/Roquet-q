@@ -14,7 +14,5 @@ class Question(Model):
     class Meta:
         verbose_name = 'Pergunta'
         verbose_name_plural = 'Perguntas'
-    
-
-    
-    
+       
+      

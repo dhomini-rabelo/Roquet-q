@@ -32,7 +32,8 @@ def create_room(request):
             return redirect('settings', request.POST.get('code'))
         else:
             send_errors_of_room(request, operation['errors'])
-            return redirect('create_room')
+            username = get_username_for_url(request)
+            return redirect(f'/entrar-na-sala{username}')
             
     return render(request, f'{BP}/create_room.html', context)
 

@@ -11,11 +11,9 @@ from datetime import timedelta
 
 # support functions
 
-def exists_question(question, theme, code):
+def exists_question(question, theme_id, code):
     room = Room.objects.get(code=code)
-    theme_of_room = room.themes.filter(name=theme).first()
-    if theme_of_room is None:
-        return False
+    theme_of_room = room.themes.get(id=theme_id)
     
     questions = list(item[0] for item in theme_of_room.questions.values_list('text'))
     
@@ -37,26 +35,26 @@ def verify_process__ask(request):
 
 # main functions
 
-def validate_question(request, code):
-    rp = request.POST
-    
-    username, question = filters(rp.get('username')), filters(rp.get('question'))
+def validate_question(rp, code):
+    # rp -> request.POST
+    room = Room.objects.get(code=code)
+    creator, text = filters(rp.get('creator')), filters(rp.get('text'))
     theme = filters(rp.get('theme'))
     
     fv = [
-        [username, 'str', 'username', [('max_length', 128)]],
-        [question, 'str', 'question', [('max_length', 512)]],
-        [theme, 'str', 'theme', [('exists', 'name')]],
+        [creator, 'str', 'creator', [('max_length', 128)]],
+        [text, 'str', 'text', [('max_length', 512)]],
+        [theme, 'int', 'theme', [('exists', 'id')]],
     ]
     
-    form_errors = get_post_form_errors(fv, Theme)
+    form_errors = get_post_form_errors(fv, room.themes, api=True)
     
-    if exists_question(question, theme, code):
-        return {'response': 'invalid', 'errors': 'Esta pergunta já foi cadastrada'}
+    if (form_errors is None) and (exists_question(text, theme, code)):
+        return {'status': 'invalid', 'errors': 'Esta pergunta já foi cadastrada'}
     elif form_errors is None:
-        return {'response': 'valid'}
+        return {'status': 'valid', 'errors': {}}
     else:
-        return {'response': 'invalid', 'errors': form_errors} 
+        return {'status': 'invalid', 'errors': form_errors} 
     
 
 

@@ -1,6 +1,6 @@
 from django.urls import path
-from ._asks.views import create_questions
+from ._asks.views import CreateQuestionsView
 
 urlpatterns = [
-    path('criar-pergunta', create_questions)
+    path('criar-pergunta', CreateQuestionsView.as_view())
 ]

@@ -11,6 +11,17 @@ from decimal import Decimal
 from datetime import datetime
 
 
+
+
+def api_convert_validation(obj, new_type: str):
+    if new_type == 'str' and isinstance(obj, str): 
+        return 'valid'
+    elif new_type == 'int' and isinstance(obj, int): 
+        return 'valid'
+    else:
+        return 'convert_error'
+
+
 def convert_validation(obj, new_type: str):
     if new_type == 'pass': return 'valid'
     initial_type = get_type(obj)
@@ -58,7 +69,7 @@ def convert_validation(obj, new_type: str):
         return 'initial_type_error'
       
         
-def get_post_form_errors(fields: list, Model=None):
+def get_post_form_errors(fields: list, Model=None, api=False):
     """
     Model list fields
     [[fields(example: name), variable_for_convert_validation, name_field_for_error_messages,
@@ -74,7 +85,7 @@ def get_post_form_errors(fields: list, Model=None):
     types_more_validations = ['unique', 'email', 'caracters', 'min-max-equal(length)']
     
     for field, convert_var, name, more_validations in fields:
-        validation = convert_validation(field, convert_var)
+        validation = convert_validation(field, convert_var) if not api else api_convert_validation(field, convert_var)
         if str(validation) == 'initial_type_error' or check_null(field):
             none_fields.append(name)  
         elif str(validation) == 'convert_error':

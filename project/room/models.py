@@ -26,7 +26,7 @@ class Theme(Model):
     room = ForeignKey(Room, on_delete=CASCADE, related_name='themes', null=True, verbose_name='Sala')
     
     def __str__(self):
-        return self.name
+        return f'{self.id}: {self.name}'
         
     class Meta:
         verbose_name = 'Tema'
