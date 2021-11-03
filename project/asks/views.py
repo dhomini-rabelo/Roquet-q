@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from Support.code.apps._asks import user_permission
+from Support.code.apps._asks.decorators import main_sessions_required
 from Support.code.apps._asks.settings import verify_process__settings, create_theme, try_update_for_admin, disable_theme, get_total_of_questions
 from Support.code.apps._asks.records import get_questions_answered, get_questions_for_end_rank
 from Support.code.apps._asks.ask import register_question, validate_question, verify_process__ask, delete_question, get_none_themes
@@ -12,12 +13,10 @@ from django.contrib import messages
 BP = 'apps/asks' # base path
 
 
+@main_sessions_required
 def ask(request, code):
     # initial flow
-    if not user_permission(request, code):
-        return redirect('enter_room')
-    
-    
+      
     if request.method == 'GET':
         context = dict()
         context['code'] = code
@@ -52,11 +51,9 @@ def ask(request, code):
 
 
 
+@main_sessions_required
 def vote(request, code):
-    # initial flow
-    if not user_permission(request, code):
-        return redirect('enter_room')
-    
+    # initial flow  
     context = dict()
     context['code'] = code
     
@@ -79,11 +76,9 @@ def vote(request, code):
 
 
 
+@main_sessions_required
 def records_view(request, code):
-    # initial flow
-    if not user_permission(request, code):
-        return redirect('enter_room')
-    
+    # initial flow   
     context = dict()
     context['code'] = code
     context['themes'] = Room.objects.get(code=code).themes.filter(active=False)
@@ -97,11 +92,9 @@ def records_view(request, code):
 
 
 
+@main_sessions_required
 def settings_view(request, code):
     # initial flow
-    if not user_permission(request, code):
-        return redirect('enter_room')
-    
     context = dict()
     context['code'] = code
     context['room'] = Room.objects.get(code=code)

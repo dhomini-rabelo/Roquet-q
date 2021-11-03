@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'room.RoomConfig',
     'api.ApiConfig',
     # Others apps
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

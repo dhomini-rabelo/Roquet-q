@@ -21,3 +21,5 @@ def user_permission(request, code):
         return False
     else:
         return True
+
+

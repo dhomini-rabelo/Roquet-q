@@ -14,7 +14,7 @@
     <h2 class="sub-title">Entrar na sala</h2>
     <form method="post" autocomplete="off">
         {% csrf_token %}
-        <input type="text" name="username" id="id_username" placeholder="Username">
+        <input type="text" name="username" id="id_username" placeholder="Username" value="{{ username }}">
         <input type="number" name="code" id="id_code" placeholder="Código da sala">
         <button class="button-white-blue button-blue-white enter">
                 <img src="{% static 'assets/apps/room/home/enter-blue.svg' %}" alt="group" class="button-img blue-img">
