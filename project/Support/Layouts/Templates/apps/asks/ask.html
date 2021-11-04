@@ -27,9 +27,7 @@
 
 <div class="app">
     <h1 class="poppins">Faça sua pergunta</h1>
-    <form class="question" method="POST">
-        {% csrf_token %}
-        <input type="hidden" name="username" id="id_username" value="{{username}}">
+    <div class="question text-area">
         <textarea name="question" id="id_question" placeholder="O que deseja saber?" spellcheck="false"></textarea>
         <div class="question-footer">
             <div class="username">
@@ -42,19 +40,25 @@
                     {% if themes %}
                     {% for theme in themes %}
                     {% if selected and selected == theme.name %}
-                    <option value="1" selected>{{ theme.name }}</option>
+                    <option value="{{theme.id}}" selected>{{ theme.name }}</option>
                     {% else %}
-                    <option value="1">{{ theme.name }}</option>
+                    <option value="{{theme.id}}">{{ theme.name }}</option>
                     {% endif %}
                     {% endfor %}
                     {% endif %}
                 </select>
-                <input type="hidden" name="theme" id="id_theme" value="is_none">
+                {% csrf_token %}
+                <input type="hidden" name="username" id="id_username" value="{{username}}">
+                <input type="hidden" name="theme" id="id_theme" value="0">
                 <input type="hidden" name="process" id="id_process" value="register_question">
-                <button type="submit" class="send">Enviar</button>
+                <button type="submit" class="send">Enviar<div class="send-loader" style="display: none;"></div></button>
             </div>
         </div>
-    </form>
+    </div>
+    <div class="icon-text-message message" style="display: none;">
+        <img src="" alt="message-img">
+        <span></span>
+    </div>
     <h2 class="poppins">Enviadas recentemente</h2>
     {% for question in my_questions|slice:3 %}
         <div class="question my-questions" theme="{{ question|get_item:'theme' }}" order="{{ question|get_item:'order' }}">
@@ -126,4 +130,5 @@
 
 {% block javascript %}
 <script src="{% static  'scripts/apps/asks/selectInput.js' %}"></script>
+<script type="module" src="{% static  'scripts/apps/api/ask.js' %}"></script>
 {% endblock %}

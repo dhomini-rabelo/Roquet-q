@@ -20,7 +20,7 @@ def adapt_form_errors(form_errors: dict):
         if error[0] == 'unique':
             response[error[1]] = 'Este campo já está em uso'
         elif error[0] == 'exists':
-            response[error[1]] = 'Este campo não existe'
+            response[error[1]] = 'Este campo não foi encontrado'
         elif error[0] == 'email':
             response[error[1]] = 'Email inválido'
         elif error[0] == 'caracters':

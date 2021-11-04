@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', getInitialTheme)
 
 function updateInputTheme(event) {
     let themeSelected = this.selectedOptions[0]
-    inputTheme.value = themeSelected.innerHTML
+    inputTheme.value = themeSelected.value
 }
 
 

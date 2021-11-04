@@ -47,7 +47,7 @@ def validate_question(rp, code):
         [theme, 'int', 'theme', [('exists', 'id')]],
     ]
     
-    form_errors = get_post_form_errors(fv, room.themes, api=True)
+    form_errors = get_post_form_errors(fv, room.themes.filter(active=True), api=True)
     
     if (form_errors is None) and (exists_question(text, theme, code)):
         return {'status': 'invalid', 'errors': {'text': 'Esta pergunta já foi cadastrada'}}

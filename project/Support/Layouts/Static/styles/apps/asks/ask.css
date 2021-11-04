@@ -126,3 +126,43 @@ button.icon-text{
     border: none;
     background-color: transparent;
 }
+
+.send-loader{
+    height: 2rem;
+    width: 2rem;
+    border: 0.4rem solid white;
+    border-top-color: #afbfd8;
+    animation: rotate360 0.6s infinite;
+    border-radius: 50%;
+}
+
+@keyframes rotate360{
+    to{
+        transform: rotate(1turn);
+    }
+}
+
+.success-send-question{
+    border: 3px solid rgb(113, 190, 90);
+}
+
+.warning-send-question{
+    border: 3px solid rgb(247, 214, 27);
+}
+
+.error-send-question{
+    border: 3px solid rgb(235, 7, 7);
+}
+
+.message span{
+    font-size: 1.5rem;
+    position: relative;
+    top: 0.3rem;
+    margin-left: 0.3rem;
+}
+
+.message img{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;      
+}
