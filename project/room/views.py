@@ -62,7 +62,7 @@ def enter_room(request):
 
 def code_room_shortcut(request, code):
     # initial flow
-    if not field_exists(Room, 'code', code):
+    if not field_exists(Room.objects, 'code', code):
         raise Http404
     
     context = dict()

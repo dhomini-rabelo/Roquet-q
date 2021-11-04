@@ -24,7 +24,7 @@ def create_an_room(request):
         [code, 'int', 'code', [('unique', 'code'), ('equal_length', 6)]],
     ]  # form validation
     
-    form_errors = get_post_form_errors(fv, Room)
+    form_errors = get_post_form_errors(fv, Room.objects)
     
     if form_errors is None:
         encrypted_password = hashlib.md5(password.encode()).hexdigest()

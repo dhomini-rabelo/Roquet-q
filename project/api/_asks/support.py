@@ -9,3 +9,4 @@ def get_questions_by_room_code(code):
     themes_id = room.themes.values_list('id', flat=True)
     questions = Question.objects.filter(theme__id__in=themes_id)
     return questions
+    

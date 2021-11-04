@@ -14,7 +14,7 @@ def validate_room_entry(request):
         [code, 'int', 'code', [('equal_length', 6), ('exists', 'code')]],
     ]
     
-    form_errors = get_post_form_errors(fv, Room)
+    form_errors = get_post_form_errors(fv, Room.objects)
     
     if form_errors is None:
         return {'status': 'success'}
