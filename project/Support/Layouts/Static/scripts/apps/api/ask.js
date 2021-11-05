@@ -151,7 +151,12 @@ async function registerQuestion() {
             if ('text' in process['errors']) {
                 showMessage(process['errors']['text'].replace('Este campo', 'Pergunta'), 'error')
             } else if ('theme' in process['errors']) {
-                showMessage(process['errors']['theme'], 'error')
+                let messageForError = process['errors']['theme'].replace('Este campo', 'Tema')
+                if (messageForError === 'Tema não foi encontrado'){
+                    showMessage('Tema inexistente ou inativo', 'error')
+                } else{
+                    showMessage(process['errors']['theme'].replace('Este campo', 'Tema'), 'error')
+                }
             } else if ('creator' in process['errors'].replace('Este campo', 'Tema')) {
                 showMessage(process['errors']['creator'].replace('Este campo', 'Username'), 'error')
             }
@@ -177,12 +182,26 @@ async function createQuestions(creator, text, themeId) {
     return response
 }
 
+function In(obj, array) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === obj) {
+            return true
+        }
+    }
+    return false
+}
+
 
 function validateQuestion(text, theme_id){
+    let myQuestionsCreated = JSON.parse(localStorage.getItem('myQuestions'))
+    let myQuestionsCreatedOnlyText = []
+    myQuestionsCreated.forEach((questionData) => {myQuestionsCreatedOnlyText.push(questionData[0])})
     if (text.length === 0){
         return 'Envie uma pergunta'
     } else if (theme_id === 0){
         return 'Selecione um tema'
+    } else if (In(text, myQuestionsCreatedOnlyText)) {
+        return 'Você já fez está pergunta'
     } else {
         return 'valid'
     }
@@ -207,7 +226,7 @@ function showMessage(message, status){
     textMessage.innerHTML = message
 
 
-    setTimeout(clearMessage, 1750)
+    setTimeout(clearMessage, 3000)
 }
 
 function clearMessage(){

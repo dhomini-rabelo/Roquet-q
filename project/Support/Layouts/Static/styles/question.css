@@ -125,6 +125,10 @@ li{
     background-color: white;
 }
 
+p.question-text{
+    user-select: text;
+}
+
 
 @media(max-width: 1050px) {
     .question{
