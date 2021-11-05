@@ -88,15 +88,11 @@ def delete_question(request):
     creator, text = filters(rp.get('creator')), filters(rp.get('text'))
     theme = filters(rp.get('theme'))
     
-    themes = Room.objects.get(code=request.session['code']).themes.get(name=theme)
-    question = themes.questions.get(creator=creator, text=text)
+    theme = Room.objects.get(code=request.session['code']).themes.get(name=theme)
+    question = theme.questions.get(creator=creator, text=text)
     question.delete()
-     
-    # end flow
-    for key, my_question in enumerate(request.session['main']['my_questions']):
-        if my_question['text'] == text:
-            request.session['main']['my_questions'].pop(key)
-            break
+    messages.success(request, 'Pergunta excluída com sucesso')
+
 
 
 def get_none_themes(request, themes):

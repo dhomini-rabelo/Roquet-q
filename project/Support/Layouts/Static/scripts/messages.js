@@ -8,5 +8,5 @@ function clearAlert() {
         alerts.forEach((alert) => {
             alert.style.display = 'none'
         })
-    }, 7000)
+    }, 3000)
 }

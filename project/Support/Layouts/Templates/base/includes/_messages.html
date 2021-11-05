@@ -1,7 +1,5 @@
 {% for message in messages %}
-{% if message.tags != 'alert-warning'   %}
 <div class="alert {{message.tags}}" role="alert" style="max-width: 80vw; margin: 0.5rem auto;">
   {{ message }} 
 </div>
-{% endif %}
 {% endfor %}

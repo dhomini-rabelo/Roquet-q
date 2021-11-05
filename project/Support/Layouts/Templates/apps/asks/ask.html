@@ -59,19 +59,23 @@
         <img src="" alt="message-img">
         <span></span>
     </div>
+    <div class="icon-text-message message sheets" display="display: block;"><span>ㅤ</span></div>
     <h2 class="poppins">Enviadas recentemente</h2>
-<div class="questions-saved">
-</div>
+    {% include 'apps/asks/includes/_messages.html' %}
+    <div class="questions-saved">
+    </div>
 </div>
 
 <div class="app select">
+    {% include 'apps/asks/includes/_messages.html' %}
     {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
     </div> 
     {% endcache %}
-    <div class="all-my-questions"></div>
+    <div class="all-my-questions">
+    </div>
 </div>
 
 {% endblock %}

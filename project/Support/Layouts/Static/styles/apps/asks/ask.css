@@ -143,15 +143,15 @@ button.icon-text{
 }
 
 .success-send-question{
-    border: 3px solid rgb(113, 190, 90);
+    border: 2px solid rgb(113, 190, 90);
 }
 
 .warning-send-question{
-    border: 3px solid rgb(247, 214, 27);
+    border: 2px solid rgb(247, 214, 27);
 }
 
 .error-send-question{
-    border: 3px solid rgb(235, 7, 7);
+    border: 2px solid rgb(235, 7, 7);
 }
 
 .message span{

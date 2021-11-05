@@ -1,0 +1,5 @@
+{% for message in messages %}
+<div class="alert {{message.tags}} visible" role="alert" style="margin: 0.5rem auto 1.5rem auto;" theme="Selecionar tema">
+  {{ message }} 
+</div>
+{% endfor %}

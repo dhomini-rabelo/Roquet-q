@@ -15,37 +15,15 @@ BP = 'apps/asks' # base path
 
 @main_sessions_required
 def ask(request, code):
-    # initial flow
-      
     if request.method == 'GET':
         context = dict()
         context['code'] = code
         context['username'] = request.session['main']['username']
         context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
-        context['my_questions'] = request.session['main']['my_questions']
-        context['none_themes'] = get_none_themes(request, list(context['themes'].values_list('name', flat=True)))
 
-
-    # main flow
     elif request.method == 'POST':
-        process = verify_process__ask(request)
-        
-        if process['action'] == 'register_question':
-            operation = validate_question(request.POST, code)
-            if operation['response'] == 'valid':
-                register_question(request, code)
-                messages.success(request, 'Pergunta registrada com sucesso')
-            elif operation['response'] == 'invalid':        
-                send_errors_of_asks(request, operation['errors'])
-                
-                
-        elif process['action'] == 'delete_question':
-            delete_question(request)
-            
+        delete_question(request)
         return redirect('ask', code)
-    
-    # end flow 
-    context['selected'] = context['my_questions'][0]['theme'] if len(context['my_questions']) else 'none'
     
     return render(request, f'{BP}/ask.html', context)
 

@@ -2,10 +2,13 @@ import {asyncPost} from './base.js'
 //* MAIN Web Element
 let sendButton = document.querySelector('button.send')
 
+
 //* EVENT
 
 sendButton.addEventListener('click', registerQuestion)
 document.addEventListener('DOMContentLoaded', renderQuestions)
+
+
 
 //* Main Functions
 
@@ -15,25 +18,52 @@ function renderQuestions() {
         let questions = []
         localStorage.setItem('myQuestions', JSON.stringify(questions))
     }else{
-        let questions = JSON.parse(myQuestions)
+        let questions = clearQuestions(JSON.parse(myQuestions))
+        localStorage.setItem('myQuestions', JSON.stringify(questions))
         renderApp1(questions)
         renderApp2(questions)
+        let deleteButtons = document.querySelectorAll('form')
+        deleteButtons.forEach((button) => {
+            button.addEventListener('submit', deleteQuestion)
+        })        
     }
 }
 
+
+function deleteQuestion(event){
+    let form = event.currentTarget
+    let button = form.children[4].children[0]
+    button.disabled = true
+    let index = Number.parseInt(button.getAttribute('index'))
+    let myQuestions = JSON.parse(localStorage.getItem('myQuestions'))
+    let questions = clearQuestions(myQuestions)
+    questions.splice(index, 1)
+    localStorage.setItem('myQuestions', JSON.stringify(questions))
+}
+
+
+function clearQuestions(questions){
+    let optionsTheme = document.querySelectorAll('select.select-main option')
+    let activeThemes = []
+    optionsTheme.forEach((option) => (activeThemes.push(option.innerHTML)))
+    let activeQuestions = questions.filter((questionsData) => (In(questionsData[1], activeThemes)))
+    return activeQuestions
+}
+
+
 function renderApp1(questions) {
     let app1 = document.querySelector('div.questions-saved')
+    let myUsername = document.querySelector('#id_username').value
+    let csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value    
     if (questions.length === 0){
         app1.innerHTML = '<img src="/static/assets/global/questions-representation.png" alt="questions-representation" class="questions-representation">'
         return
-    }else{
-        app1.innerHTML = ''
     }
-
+    app1.innerHTML = ''
     if(questions.length > 3){
         questions = questions.slice(0,3)
     }
-    questions.forEach((questionData) => {
+    questions.forEach((questionData, index) => {
         let savedQuestion = document.createElement('div')
         savedQuestion.setAttribute('theme', `${questionData[1]}`)
         savedQuestion.setAttribute('class', 'question my-questions')
@@ -46,12 +76,18 @@ function renderApp1(questions) {
                 <img src="/static/assets/apps/asks/global/clock.png" alt="clock-img">
                 <span>${questionData[2]}</span>
             </div>
+            <form method="POST">
+            <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+            <input type="hidden" name="creator" id="id_creator" value="${myUsername}">
+            <input type="hidden" name="text" id="id_text" value="${questionData[0]}">
+            <input type="hidden" name="theme" id="id_theme" value="${questionData[1]}">
             <div class="edit-question icon-text">
-                <button type="submit" class="icon-text">
+                <button type="submit" class="icon-text delete-question" index="${index}">
                     <img src="/static/assets/apps/asks/global/trash.svg" alt="trash-img">
                     <span>Excluir</span>
                 </button>
             </div>
+            </form>
         </div>
     `
         app1.append(savedQuestion)
@@ -60,28 +96,36 @@ function renderApp1(questions) {
 
 function renderApp2(questions) {
     let app2 = document.querySelector('div.all-my-questions')
+    let myUsername = document.querySelector('#id_username').value
+    let csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value
     app2.innerHTML = ''
-    questions.forEach((questionData) => {
+    questions.forEach((questionData, index) => {
         let savedQuestion = document.createElement('div')
         savedQuestion.setAttribute('theme', `${questionData[1]}`)
         savedQuestion.setAttribute('class', 'question my-questions')
         savedQuestion.innerHTML = `
-        <p class="question-text">
-            ${questionData[0]}
-        </p>
-        <div class="question-footer">
-            <div class="clock icon-text">
-                <img src="/static/assets/apps/asks/global/clock.png" alt="clock-img">
-                <span>${questionData[2]}</span>
+            <p class="question-text">
+                ${questionData[0]}
+            </p>
+            <div class="question-footer">
+                <div class="clock icon-text">
+                    <img src="/static/assets/apps/asks/global/clock.png" alt="clock-img">
+                    <span>${questionData[2]}</span>
+                </div>
+                <form method="POST">
+                <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+                <input type="hidden" name="creator" id="id_creator" value="${myUsername}">
+                <input type="hidden" name="text" id="id_text" value="${questionData[0]}">
+                <input type="hidden" name="theme" id="id_theme" value="${questionData[1]}">
+                <div class="edit-question icon-text">
+                    <button type="submit" class="icon-text delete-question" index="${index}">
+                        <img src="/static/assets/apps/asks/global/trash.svg" alt="trash-img">
+                        <span>Excluir</span>
+                    </button>
+                </div>
+                </form>
             </div>
-            <div class="edit-question icon-text">
-                <button type="submit" class="icon-text">
-                    <img src="/static/assets/apps/asks/global/trash.svg" alt="trash-img">
-                    <span>Excluir</span>
-                </button>
-            </div>
-        </div>
-    `
+        `
         app2.append(savedQuestion)
     })
     checkNoneThemes()
@@ -147,6 +191,8 @@ async function registerQuestion() {
             showMessage('Pergunta enviada com sucesso', 'success')
             addQuestionToMyQuestions(text, themeId)
             renderQuestions()
+            let textAreaUsed = document.querySelector('textarea')
+            textAreaUsed.innerHTML = ''
         }else{
             if ('text' in process['errors']) {
                 showMessage(process['errors']['text'].replace('Este campo', 'Pergunta'), 'error')
@@ -216,23 +262,30 @@ function showMessage(message, status){
     let messageForUser = document.querySelector('div.message')
     let imgMessage = document.querySelector('div.message > img')
     let textMessage = document.querySelector('div.message > span')
+    let messageSpace = document.querySelector('.sheets')
 
 
     let getImg = {'success': 'yes', 'error': 'no', 'warning': 'alert'}
     
-    
+    messageSpace.style.display = 'none'
     messageForUser.style.display = 'block'
     imgMessage.setAttribute('src', `/static/admin/img/icon-${getImg[status]}.svg`)
     textMessage.innerHTML = message
 
-
-    setTimeout(clearMessage, 3000)
+    setTimeout(() => {
+        clearMessage(message)
+    }, 3000)
 }
 
-function clearMessage(){
+function clearMessage(message){
+    let textSpanMessage = document.querySelector('div.message > span')
     let borderTextAreaForClear = document.querySelector('div.question.text-area')
+    let messageSpace = document.querySelector('.sheets')
     let checkMessage = document.querySelector('div.message')
-    checkMessage.style.display = 'none'
-    borderTextAreaForClear.setAttribute('class', 'question text-area')
+    if (textSpanMessage.innerHTML === message) {
+        checkMessage.style.display = 'none'
+        messageSpace.style.display = 'block'
+        borderTextAreaForClear.setAttribute('class', 'question text-area')
+    }
 }
 
