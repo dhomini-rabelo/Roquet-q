@@ -82,13 +82,13 @@ def register_question(request, code):
         
         
         
-def delete_question(request):
+def delete_question(request, code):
     rp = request.POST
     
     creator, text = filters(rp.get('creator')), filters(rp.get('text'))
     theme = filters(rp.get('theme'))
     
-    theme = Room.objects.get(code=request.session['code']).themes.get(name=theme)
+    theme = Room.objects.get(code=code).themes.get(name=theme)
     question = theme.questions.get(creator=creator, text=text)
     question.delete()
     messages.success(request, 'Pergunta excluída com sucesso')

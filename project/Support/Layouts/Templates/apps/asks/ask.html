@@ -1,7 +1,6 @@
 {% extends 'base/question.html' %}
 {% load static %}
 {% load cache %}
-{% load filters %}
 
 {% block links %}
 <link rel="stylesheet" href="{% static 'styles/apps/asks/ask.css' %}">
@@ -25,6 +24,7 @@
 </nav>
 {% endcache %}
 
+
 <div class="app">
     <h1 class="poppins">Faça sua pergunta</h1>
     <div class="question text-area">
@@ -37,20 +37,13 @@
             <div class="division-for-buttons">
                 <select>
                     <option value="0">Selecionar tema</option>
-                    {% if themes %}
                     {% for theme in themes %}
-                    {% if selected and selected == theme.name %}
-                    <option value="{{theme.id}}" selected>{{ theme.name }}</option>
-                    {% else %}
                     <option value="{{theme.id}}">{{ theme.name }}</option>
-                    {% endif %}
                     {% endfor %}
-                    {% endif %}
                 </select>
                 {% csrf_token %}
                 <input type="hidden" name="username" id="id_username" value="{{username}}">
                 <input type="hidden" name="theme" id="id_theme" value="0">
-                <input type="hidden" name="process" id="id_process" value="register_question">
                 <button type="submit" class="send">Enviar<div class="send-loader" style="display: none;"></div></button>
             </div>
         </div>
@@ -61,13 +54,17 @@
     </div>
     <div class="icon-text-message message sheets" display="display: block;"><span>ㅤ</span></div>
     <h2 class="poppins">Enviadas recentemente</h2>
+    {% if page == '1' %}
     {% include 'apps/asks/includes/_messages.html' %}
+    {% endif %}
     <div class="questions-saved">
     </div>
 </div>
 
 <div class="app select">
+    {% if page == '2' %}
     {% include 'apps/asks/includes/_messages.html' %}
+    {% endif %}
     {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">

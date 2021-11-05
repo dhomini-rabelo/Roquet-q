@@ -32,7 +32,7 @@ function renderQuestions() {
 
 function deleteQuestion(event){
     let form = event.currentTarget
-    let button = form.children[4].children[0]
+    let button = form.children[5].children[0]
     button.disabled = true
     let index = Number.parseInt(button.getAttribute('index'))
     let myQuestions = JSON.parse(localStorage.getItem('myQuestions'))
@@ -81,6 +81,7 @@ function renderApp1(questions) {
             <input type="hidden" name="creator" id="id_creator" value="${myUsername}">
             <input type="hidden" name="text" id="id_text" value="${questionData[0]}">
             <input type="hidden" name="theme" id="id_theme" value="${questionData[1]}">
+            <input type="hidden" name="page" id="id_page" value="1">
             <div class="edit-question icon-text">
                 <button type="submit" class="icon-text delete-question" index="${index}">
                     <img src="/static/assets/apps/asks/global/trash.svg" alt="trash-img">
@@ -117,6 +118,7 @@ function renderApp2(questions) {
                 <input type="hidden" name="creator" id="id_creator" value="${myUsername}">
                 <input type="hidden" name="text" id="id_text" value="${questionData[0]}">
                 <input type="hidden" name="theme" id="id_theme" value="${questionData[1]}">
+                <input type="hidden" name="page" id="id_page" value="2">
                 <div class="edit-question icon-text">
                     <button type="submit" class="icon-text delete-question" index="${index}">
                         <img src="/static/assets/apps/asks/global/trash.svg" alt="trash-img">

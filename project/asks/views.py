@@ -20,10 +20,12 @@ def ask(request, code):
         context['code'] = code
         context['username'] = request.session['main']['username']
         context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
+        context['page'] = request.GET.get('p') if request.GET.get('p') else '1'
 
     elif request.method == 'POST':
-        delete_question(request)
-        return redirect('ask', code)
+        delete_question(request, code)
+        page = request.POST.get('page') if request.POST.get('page') else '1'
+        return redirect(f'/{code}/perguntar?p={page}')
     
     return render(request, f'{BP}/ask.html', context)
 
@@ -31,12 +33,9 @@ def ask(request, code):
 
 @main_sessions_required
 def vote(request, code):
-    # initial flow  
-    context = dict()
-    context['code'] = code
-    
-    # main flow
     if request.method == 'GET':
+        context = dict()
+        context['code'] = code
         context['admin'] = request.session['main']['admin']
         context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
         context['questions_for_ranking'] = get_best_questions(context['themes'])

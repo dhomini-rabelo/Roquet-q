@@ -8,7 +8,7 @@ import hashlib
 
 def get_room_code():
     code = randint(100000, 999999)
-    while not validate_unique(Room, 'code', code):
+    while not validate_unique(Room.objects, 'code', code):
         code = randint(100000, 999999)
     return code
 
