@@ -10,3 +10,8 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = 'creator', 'text', 'theme'
         
+        
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Question
+        fields = 'id', 'creator', 'text', 'theme', 'up_votes', 'down_votes', 'creation', 'answered',

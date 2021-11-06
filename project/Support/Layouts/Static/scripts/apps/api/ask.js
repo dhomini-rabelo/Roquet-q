@@ -194,7 +194,7 @@ async function registerQuestion() {
             addQuestionToMyQuestions(text, themeId)
             renderQuestions()
             let textAreaUsed = document.querySelector('textarea')
-            textAreaUsed.innerHTML = ''
+            textAreaUsed.value = ''
         }else{
             if ('text' in process['errors']) {
                 showMessage(process['errors']['text'].replace('Este campo', 'Pergunta'), 'error')
@@ -226,7 +226,6 @@ async function createQuestions(creator, text, themeId) {
         'theme': themeId
     }
     let response = await asyncPost(url, body)
-    response = JSON.parse(response)
     return response
 }
 
