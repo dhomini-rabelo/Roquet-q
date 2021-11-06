@@ -75,9 +75,10 @@
     </div>
 </div>
 
+<input type="hidden" id="code" value="{{ code }}">
 {% endblock %}
 
 {% block javascript %}
 <script src="{% static  'scripts/apps/asks/selectInput.js' %}"></script>
-<script type="module" src="{% static  'scripts/apps/api/ask.js' %}"></script>
+<script type="module" src="{% static  'scripts/apps/api/ask/api.js' %}"></script>
 {% endblock %}
