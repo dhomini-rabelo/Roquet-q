@@ -28,78 +28,33 @@
 {% endcache %}
 
 <div class="app select">
+    {% include 'apps/asks/includes/_messages.html' %}        
     {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
     </div>      
     {% endcache %}
-    {% for theme_name, questions in answered.items %}
-    {% for question in questions %}
-    <div class="question my-questions" theme="{{ question|theme }}">
-        <p class="question-text">
-            {{ question.text }}
-        </p>
-        <div class="question-footer">
-            <div class="clock icon-text">
-                <div class="username">
-                    <img src="{% static 'assets/apps/asks/global/user.svg' %}" alt="user-img">
-                    <span>{{ question.creator }}</span>
-                </div>
-            </div>
-            <ul class="edit-question icon-text">
-                <li class="icon-text">
-                    <span>{{ question|horary }}</span>
-                    <img src="{% static 'assets/apps/asks/global/clock.png' %}" alt="clock-img">
-                </li>
-            </ul>
-        </div>
-    </div>
-    {% empty %}
-    <div class="my-questions qr" theme="{{ theme_name }}">
-        <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
-    </div>  
-    {% endfor %}
-    {% endfor %}
+    <div class="answered-questions"></div>
 </div>
+
+
+
+
+
 <div class="app select">
+    {% include 'apps/asks/includes/_messages.html' %}    
     {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
     </div> 
     {% endcache %}
-    {% for theme_name, questions in questions_for_ranking.items %}
-    {% for question in questions %}
-    <div class="question my-questions" theme="{{ question|theme }}">
-        <p class="question-text">
-            {{ question.text }}
-        </p>
-        <div class="question-footer">
-            <div class="clock icon-text">
-                <div class="username">
-                    <img src="{% static 'assets/apps/asks/global/user.svg' %}" alt="user-img">
-                    <span>{{ question.creator }}</span>
-                </div>
-            </div>
-            <ul class="edit-question icon-text">
-                <li class="icon-text">
-                    <span>{{ question.down_votes }}</span>
-                    <img src="{% static 'assets/apps/asks/vote/deslike.png' %}" alt="deslike">
-                </li>
-                <li class="icon-text">
-                    <span>{{ question.up_votes }}</span>
-                    <img src="{% static 'assets/apps/asks/vote/like.png' %}" alt="like">
-                </li>
-            </ul>
-            </form>
-        </div>
-    </div>
-    {% empty %}
-    <div class="my-questions qr" theme="{{ theme_name }}">
-        <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
-    </div>      
-    {% endfor %}
-    {% endfor %}
+ <div class="questions-for-end-ranking"></div>
 </div>
+{% endblock %}
+
+
+{% block javascript %}
+<script type="module" src="{% static  'scripts/apps/api/records/api.js' %}"></script>
 {% endblock %}

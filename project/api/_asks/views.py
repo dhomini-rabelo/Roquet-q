@@ -49,7 +49,7 @@ class ListBestQuestionsView(APIView):
 class ListFinalizedQuestions(APIView):
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=False)
-        queryset = questions.annotate(score=F('up_votes')-F('down_votes')).order_by('-score')
+        queryset = questions.annotate(score=F('up_votes')-F('down_votes')).order_by('-score', '-up_votes')
         serializer = VoteSerializer(queryset, many=True)
         return Response(serializer.data)
 
@@ -57,7 +57,7 @@ class ListFinalizedQuestions(APIView):
 class ListFinalizedAnsweredQuestions(APIView):
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=False)
-        queryset = questions.filter(answered=True).annotate(score=F('up_votes')-F('down_votes')).order_by('-score', '-up_votes')
+        queryset = questions.filter(answered=True).order_by('creation')
         serializer = VoteSerializer(queryset, many=True)
         return Response(serializer.data)
     

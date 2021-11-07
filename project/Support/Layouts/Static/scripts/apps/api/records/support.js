@@ -36,22 +36,3 @@ export function activeSelects(){
         select.disabled = false
     })
 }
-
-
-
-export function shuffle(baseArray) {
-    let array = baseArray.slice()
-    array.sort(() => .5 - Math.random())
-    return array
-}
-
-
-export function In(obj, array) {
-    for (let i = 0; i < array.length; i++) {
-        if (array[i] === obj) {
-            return true
-        }
-    }
-    return false
-}
-

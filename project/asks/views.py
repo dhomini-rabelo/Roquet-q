@@ -1,11 +1,7 @@
 from django.shortcuts import render, redirect
-from Support.code.apps._asks import user_permission
 from Support.code.apps._asks.decorators import main_sessions_required
 from Support.code.apps._asks.settings import verify_process__settings, create_theme, try_update_for_admin, disable_theme, get_total_of_questions
-from Support.code.apps._asks.records import get_questions_answered, get_questions_for_end_rank
-from Support.code.apps._asks.ask import register_question, validate_question, verify_process__ask, delete_question, get_none_themes
-from Support.code.apps._asks import send_errors_of_asks
-from Support.code.apps._asks.vote import select_questions, register_vote, get_best_questions, get_last_voted_theme
+from Support.code.apps._asks.ask import delete_question
 from room.models import Room
 from django.contrib import messages
 
@@ -51,11 +47,8 @@ def records_view(request, code):
     context = dict()
     context['code'] = code
     context['themes'] = Room.objects.get(code=code).themes.filter(active=False)
-    
-    # main flow
-    context['answered'] = get_questions_answered(context['themes'])
-    context['questions_for_ranking'] = get_questions_for_end_rank(context['themes'])
     context['admin'] = request.session['main']['admin']
+    messages.warning(request, 'Espere as perguntas carregarem para selecionar o tema')
     
     return render(request, f'{BP}/records.html', context)
 
