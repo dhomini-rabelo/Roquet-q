@@ -78,7 +78,7 @@ class QuestionDetailView(APIView):
                 question.up_votes += 1
             elif process == 'down':
                 question.down_votes += 1
-            elif process == 'mark_as_answered':
+            elif process == 'mark':
                 question.answered = True
             question.save()
             serializer = VoteSerializer(question)

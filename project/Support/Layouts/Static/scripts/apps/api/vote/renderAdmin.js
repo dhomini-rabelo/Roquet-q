@@ -20,7 +20,7 @@ function renderQuestionsForVote(questions){
     })
     let shuffleQuestions = shuffle(questions)
     shuffleQuestions.forEach((question, index) => {
-        if ((In(question.text, savedQuestions))||(In(question.text, myQuestions))){ return }
+        if ((In(question.text, savedQuestions))&&(In(question.text, myQuestions))){ return }
         let theme = themes[question.theme]
         themeCounter[theme] += 1
         let visibility = themeCounter[theme] > 5 ? ' invisible': '' 
@@ -33,15 +33,19 @@ function renderQuestionsForVote(questions){
                     <span>${getHoraryByString(question.creation)}</span>
                 </div>
                 <div class="edit-question icon-text">
-                    <button class="icon-text action" questionId="${question.id}" action="down" index="${index}">
+                    <button class="icon-text action" questionId="${question.id}" action="mark" index="${index}" page="1">
+                        <span>Marcar como respondida</span>
+                        <img src="/static/assets/global/check.svg" alt="check">
+                    </button>
+                    <button class="icon-text action" questionId="${question.id}" action="down" index="${index}" page="1">
                         <span>DOWN</span>
                         <img src="/static/assets/apps/asks/vote/deslike.png" alt="deslike">
                     </button>
-                    <button class="icon-text action" questionId="${question.id}" action="up" index="${index}">
+                    <button class="icon-text action" questionId="${question.id}" action="up" index="${index}" page="1">
                         <span>UP</span>
                         <img src="/static/assets/apps/asks/vote/like.png" alt="like">
                     </button>
-                    <button class="icon-text action seta-last" questionId="${question.id}" action="pass" index="${index}">
+                    <button class="icon-text action seta-last" questionId="${question.id}" action="pass" index="${index}" page="1">
                         <span>PASS</span>
                         <img src="/static/assets/apps/asks/vote/seta.png" alt="seta">
                     </button>
@@ -58,7 +62,7 @@ function renderQuestionsForVote(questions){
             noneQuestionsImg.innerHTML = '<img src="/static/assets/global/questions-representation.png" alt="questions-representation" class="questions-representation">'     
             renderArea.append(noneQuestionsImg)            
         }
-    })     
+    })
 }
 
 
@@ -75,7 +79,7 @@ function renderQuestionsForRanking(questions){
         themeCounter[theme] += 1
         let visibility = themeCounter[theme] > 5 ? ' invisible': '' 
         renderArea.innerHTML += `
-        <div class="question my-questions${visibility}" theme="${theme}" index="${index}">
+        <div class="question my-questions${visibility}" theme="${theme}" index="${index + questions.length}">
         <p class="question-text">${question.text}</p>
         <div class="question-footer">
             <div class="clock icon-text">
@@ -85,6 +89,10 @@ function renderQuestionsForRanking(questions){
                 </div>
             </div>
             <ul class="edit-question icon-text">
+            <button class="icon-text action" questionId="${question.id}" action="mark" index="${index + questions.length}" page="2">
+                <span>Marcar como respondida</span>
+                <img src="/static/assets/global/check.svg" alt="check">
+            </button>            
                 <li class="icon-text">
                     <span>${question.down_votes}</span>
                     <img src="/static/assets/apps/asks/vote/deslike.png" alt="deslike">
@@ -107,5 +115,5 @@ function renderQuestionsForRanking(questions){
             noneQuestionsImg.innerHTML = '<img src="/static/assets/global/questions-representation.png" alt="questions-representation" class="questions-representation">'     
             renderArea.append(noneQuestionsImg)            
         }
-    })     
+    })    
 }

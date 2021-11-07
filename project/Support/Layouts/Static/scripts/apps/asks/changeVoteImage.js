@@ -14,10 +14,10 @@ export function activeChangeVoteImage(){
 function changeImgColor(event){
     let currentImg = event.currentTarget.children[1]
     let altImg = currentImg.getAttribute('alt')
-    if(altImg.slice(0, 4) !== 'none'){
+    if(altImg.slice(0, 4) !== 'none' && altImg !== 'check'){
         currentImg.src = `/static/assets/apps/asks/vote/none-${altImg}.png`
         currentImg.alt = `none-${altImg}`
-    }else{
+    }else if (altImg !== 'check'){
         currentImg.src = `/static/assets/apps/asks/vote/${altImg.substring(5)}.png`
         currentImg.alt = `${altImg.substring(5)}`
     }

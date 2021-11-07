@@ -33,22 +33,13 @@ def ask(request, code):
 
 @main_sessions_required
 def vote(request, code):
-    if request.method == 'GET':
-        context = dict()
-        context['code'] = code
-        context['username'] = request.session['main']['username']
-        context['admin'] = request.session['main']['admin']
-        context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
-        context['questions_for_ranking'] = get_best_questions(context['themes'])
-        context['questions_for_vote'] = select_questions(request, context['themes'])
-        messages.warning(request, 'Espere as perguntas carregarem para selecionar o tema')
+    context = dict()
+    context['code'] = code
+    context['username'] = request.session['main']['username']
+    context['admin'] = request.session['main']['admin']
+    context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
+    messages.warning(request, 'Espere as perguntas carregarem para selecionar o tema')
         
-    elif request.method == 'POST':
-        register_vote(request, code)
-        return redirect('vote', code)
-    
-    # end flow
-    context['selected'] = get_last_voted_theme(request.session['main']['voted_questions'])
 
     return render(request, f'{BP}/vote.html', context)
 

@@ -27,8 +27,8 @@
 {% endcache %}
 
 <div class="app select">
-    {% include 'apps/asks/includes/_select_theme.html' %}
     {% include 'apps/asks/includes/_messages.html' %}
+    {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
@@ -39,62 +39,23 @@
 
 
 <div class="app select">
-    {% include 'apps/asks/includes/_select_theme.html' %}
     {% include 'apps/asks/includes/_messages.html' %}    
+    {% include 'apps/asks/includes/_select_theme.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
     </div>     
     {% endcache %}
-    {% for theme_name, questions in questions_for_ranking.items %}
-    {% for question in questions %}
-    <div class="question my-questions" theme="{{ question|theme }}">
-        <p class="question-text">
-            {{ question.text }}
-        </p>
-        <div class="question-footer">
-            <div class="clock icon-text">
-                <div class="username">
-                    <img src="{% static 'assets/apps/asks/global/user.svg' %}" alt="user-img">
-                    <span>{{ question.creator }}</span>
-                </div>
-            </div>
-            <ul class="edit-question icon-text">
-                {% if admin %}
-                <form class="edit-question icon-text" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name="text" id="id_text" value="{{ question.text }}">
-                    <input type="hidden" name="theme" id="id_theme" value="{{ question|theme }}">
-                    <input type="hidden" name="username" id="id_theme" value="{{ username }}">
-                    <button class="icon-text" type="submit" value="mark" name="action" id="id_action">
-                        <span>Marcar como respondida</span>
-                        <img src="{% static 'assets/global/check.svg' %}" alt="check">
-                    </button>
-                </form>
-                {% endif %}
-                <li class="icon-text">
-                    <span>{{ question.down_votes }}</span>
-                    <img src="{% static 'assets/apps/asks/vote/deslike.png' %}" alt="deslike">
-                </li>
-                <li class="icon-text">
-                    <span>{{ question.up_votes }}</span>
-                    <img src="{% static 'assets/apps/asks/vote/like.png' %}" alt="like">
-                </li>
-            </ul>
-            </form>
-        </div>
-    </div>
-    {% empty %}
-    <div class="my-questions qr" theme="{{ theme_name }}">
-        <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
-    </div>     
-    {% endfor %}
-    {% endfor %}
+    <div class="questions-for-ranking"></div>
 </div>
 <input type="hidden" id="code" value="{{ code }}">
 <input type="hidden" id="username" value="{{ username }}">
 {% endblock %}
 
 {% block javascript %}
+{% if admin %}
+<script type="module" src="{% static  'scripts/apps/api/vote/apiAdmin.js' %}"></script>
+{% else %}
 <script type="module" src="{% static  'scripts/apps/api/vote/api.js' %}"></script>
+{% endif %}
 {% endblock %}

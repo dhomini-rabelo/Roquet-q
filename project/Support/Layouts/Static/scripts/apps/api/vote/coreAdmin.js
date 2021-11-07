@@ -1,22 +1,27 @@
-import {vote} from "./api.js"
+import {vote} from "./apiAdmin.js"
 
 export function sendVotes(event) {
     let button = event.currentTarget
     let questionId = button.getAttribute('questionId')
     let action = button.getAttribute('action')
     let index = button.getAttribute('index')
-    updateQuestion(index)
+    let page = button.getAttribute('page')
+    updateQuestion(index, page)
     setTimeout(() => {
         vote(questionId, action)
     }, 3500)
 }
 
-function updateQuestion(index){
+function updateQuestion(index, page){
     let question = document.querySelector(`div.question.my-questions[index="${index}"]`)
     let questionText = question.children[0]
     addQuestionInSavedQuestions(questionText.innerHTML)
     question.remove()
-    let questionsWithEqualTheme = document.querySelectorAll(`div.question.my-questions.invisible.visible`)
+    let local = page === '1' ? 'questions-for-vote' : 'questions-for-ranking'
+
+    let questionsWithEqualTheme = document.querySelectorAll(`.${local} div.question.my-questions.invisible.visible`)
+
+
     try{
         questionsWithEqualTheme[0].setAttribute('class', ' question my-questions visible')
     }catch(e){
@@ -34,5 +39,3 @@ function addQuestionInSavedQuestions(question){
         localStorage.setItem('savedQuestions', JSON.stringify(array))
     }
 }
-
-
