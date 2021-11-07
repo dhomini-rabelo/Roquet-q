@@ -15,6 +15,7 @@ export function sendVotes(event) {
 function updateQuestion(index, page){
     let question = document.querySelector(`div.question.my-questions[index="${index}"]`)
     let questionText = question.children[0]
+    let theme = question.getAttribute('theme')    
     addQuestionInSavedQuestions(questionText.innerHTML)
     question.remove()
     let local = page === '1' ? 'questions-for-vote' : 'questions-for-ranking'
@@ -25,6 +26,15 @@ function updateQuestion(index, page){
     try{
         questionsWithEqualTheme[0].setAttribute('class', ' question my-questions visible')
     }catch(e){
+        let lastQuestions = document.querySelectorAll(`.${local} div.question.my-questions.visible`)
+        if (lastQuestions.length === 0){
+            let renderLocal = document.querySelector(`.${local}`)
+            let alert = document.createElement('div')
+            alert.setAttribute('class', ' question my-questions visible')
+            alert.setAttribute('theme', `${theme}`)
+            alert.innerHTML = 'Recarregue a página para mais perguntas'
+            renderLocal.append(alert)
+        }        
     }
 }
 

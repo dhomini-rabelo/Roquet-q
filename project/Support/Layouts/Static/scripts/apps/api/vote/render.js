@@ -22,6 +22,7 @@ function renderQuestionsForVote(questions){
     shuffleQuestions.forEach((question, index) => {
         if ((In(question.text, savedQuestions))||(In(question.text, myQuestions))){ return }
         let theme = themes[question.theme]
+        if (themeCounter[theme] > 20){return}
         themeCounter[theme] += 1
         let visibility = themeCounter[theme] > 5 ? ' invisible': '' 
         renderArea.innerHTML += `
@@ -51,7 +52,7 @@ function renderQuestionsForVote(questions){
         `        
     })
     Object.keys(themeCounter).forEach((theme) => {
-        if(themeCounter[theme] === 0){
+        if(themeCounter[theme] === 0 && theme !== 'Selecionar tema'){
             let noneQuestionsImg = document.createElement('div')
             noneQuestionsImg.setAttribute('theme', `${theme}`)
             noneQuestionsImg.setAttribute('class', 'my-questions qr')       
@@ -72,6 +73,7 @@ function renderQuestionsForRanking(questions){
     })
     questions.forEach((question, index) => {
         let theme = themes[question.theme]
+        if (themeCounter[theme] > 20){return}
         themeCounter[theme] += 1
         let visibility = themeCounter[theme] > 5 ? ' invisible': '' 
         renderArea.innerHTML += `
@@ -100,7 +102,7 @@ function renderQuestionsForRanking(questions){
         `        
     })
     Object.keys(themeCounter).forEach((theme) => {
-        if(themeCounter[theme] === 0){
+        if(themeCounter[theme] === 0 && theme !== 'Selecionar tema'){
             let noneQuestionsImg = document.createElement('div')
             noneQuestionsImg.setAttribute('theme', `${theme}`)
             noneQuestionsImg.setAttribute('class', 'my-questions qr')       
