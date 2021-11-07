@@ -1,8 +1,6 @@
 <select class="select-main">
     <option value="0">Selecionar tema</option>
-    {% if themes %}
     {% for theme in themes %}
-    <option value="1">{{ theme.name }}</option>
+    <option value="{{ theme.id }}">{{ theme.name }}</option>
     {% endfor %}
-    {% endif %}
 </select>

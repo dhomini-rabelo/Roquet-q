@@ -28,57 +28,19 @@
 
 <div class="app select">
     {% include 'apps/asks/includes/_select_theme.html' %}
+    {% include 'apps/asks/includes/_messages.html' %}
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
     </div>     
     {% endcache %}
-    {% for theme_name, questions in questions_for_vote.items %}
-    {% for question in questions %}
-    <div class="question my-questions" theme="{{ theme_name }}">
-        <p class="question-text">
-            {{ question.text }}
-        </p>
-        <div class="question-footer">
-            <div class="clock icon-text">
-                <img src="{% static 'assets/apps/asks/global/clock.png' %}" alt="clock-img">
-                <span>{{ question|horary }}</span>
-            </div>
-            <form class="edit-question icon-text" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="text" id="id_text" value="{{ question.text }}">
-                <input type="hidden" name="theme" id="id_theme" value="{{ theme_name }}">
-                <input type="hidden" name="username" id="id_theme" value="{{ username }}">
-                {% if admin %}
-                <button class="icon-text" type="submit" value="mark" name="action" id="id_action">
-                    <span>Marcar como respondida</span>
-                    <img src="{% static 'assets/global/check.svg' %}" alt="check">
-                </button>
-                {% endif %}
-                <button class="icon-text action" type="submit" value="down" name="action" id="id_action">
-                    <span>DOWN</span>
-                    <img src="{% static 'assets/apps/asks/vote/deslike.png' %}" alt="deslike">
-                </button>
-                <button class="icon-text action" type="submit" value="up" name="action" id="id_action">
-                    <span>UP</span>
-                    <img src="{% static 'assets/apps/asks/vote/like.png' %}" alt="like">
-                </button>
-                <button class="icon-text action seta-last" type="submit" value="pass" name="action" id="id_action">
-                    <span>PASS</span>
-                    <img src="{% static 'assets/apps/asks/vote/seta.png' %}" alt="seta">
-                </button>
-            </form>
-        </div>
-    </div>
-    {% empty %}
-    <div class="my-questions qr" theme="{{ theme_name }}">
-        <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
-    </div>    
-    {% endfor %}
-    {% endfor %}
+    <div class="questions-for-vote"></div>
 </div>
+
+
 <div class="app select">
     {% include 'apps/asks/includes/_select_theme.html' %}
+    {% include 'apps/asks/includes/_messages.html' %}    
     {% cache 1800 select_theme %}
     <div class="my-questions qr visible" theme="Selecionar tema">
         <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
@@ -129,10 +91,10 @@
     {% endfor %}
     {% endfor %}
 </div>
-
+<input type="hidden" id="code" value="{{ code }}">
+<input type="hidden" id="username" value="{{ username }}">
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static  'scripts/apps/asks/changeVoteImage.js' %}"></script>
-<script src="{% static  'scripts/apps/asks/vote.js' %}"></script>
+<script type="module" src="{% static  'scripts/apps/api/vote/api.js' %}"></script>
 {% endblock %}
