@@ -10,7 +10,8 @@ let currentRoomCode = document.querySelector('input#code').value
 
 export function vote(questionId, action) {
     let url = `http://localhost:8000/api/${currentRoomCode}/lista-melhores-perguntas/${questionId}`
-    let bodyHttp = {"process": action}
+    let key = document.querySelector('input#user_key').value
+    let bodyHttp = {"process": action, "key": key}
     asyncPut(url, bodyHttp)
 }
 

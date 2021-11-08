@@ -50,6 +50,10 @@
 </div>
 <input type="hidden" id="code" value="{{ code }}">
 <input type="hidden" id="username" value="{{ username }}">
+<input type="hidden" id="user_key" value="{{ user_key }}">
+{% if admin %}
+<input type="hidden" id="admin_key" value="{{ admin_key }}">
+{% endif %}
 {% endblock %}
 
 {% block javascript %}

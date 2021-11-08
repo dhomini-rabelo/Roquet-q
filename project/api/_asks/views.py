@@ -6,7 +6,7 @@ from rest_framework.response import  Response
 from rest_framework import  status, generics
 from rest_framework.views import APIView
 from .serializers import QuestionSerializer, VoteSerializer
-from asks.models import Question
+from asks.models import UsedKeys, UserKey, AdminKey, Question
 from room.models import Room
 from django.db.models import Q, F
 import json
@@ -70,19 +70,30 @@ class QuestionDetailView(APIView):
         return Response(serializer.data)
     
     def put(self, request, code, id):
-        question = get_object_or_404(get_questions_by_room_code(code, active=True), id=id)
+        # counter hacks
+        room = get_object_or_404(Room, code=code)
+        question = get_object_or_404(Question, id=id)
+        user_keys = UserKey.objects.filter(room=room).values_list('key', flat=True)
+        admin_keys = AdminKey.objects.filter(room=room).values_list('key', flat=True)
+        storage = UsedKeys.objects.get(question=question)
+        used_keys = storage.keys.values_list('key', flat=True)
+        
         data = request.data 
         process = data.get('process')
-        if isinstance(process, str):
-            if process == 'up':
+        key = data.get('key')
+        
+        if (isinstance(process, str) and isinstance(process, str)):
+            if (process == 'up' and key in user_keys) and (key not in used_keys):
                 question.up_votes += 1
-            elif process == 'down':
+                storage.keys.add(UserKey.objects.get(key=key))
+            elif (process == 'down' and key in user_keys) and (key not in used_keys):
                 question.down_votes += 1
-            elif process == 'mark':
+                storage.keys.add(UserKey.objects.get(key=key))
+            elif (process == 'pass' and key in user_keys) and (key not in used_keys):
+                storage.keys.add(UserKey.objects.get(key=key))
+            elif process == 'mark' and key in admin_keys:
                 question.answered = True
             question.save()
-            serializer = VoteSerializer(question)
-            response = dict(serializer.data) | {'status': 'valid'}
-            return Response(response, headers = test_header)
+            return Response({'status': 'success'}, headers = test_header)
             
         return Response({'status': 'error'}, status=status.HTTP_400_BAD_REQUEST)

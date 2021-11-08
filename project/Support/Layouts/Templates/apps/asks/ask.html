@@ -58,6 +58,11 @@
     {% include 'apps/asks/includes/_messages.html' %}
     {% endif %}
     <div class="questions-saved">
+        {% cache 1800 select_theme %}
+        <div class="my-questions qr visible" theme="Selecionar tema">
+            <img src="{% static 'assets/global/questions-representation.png' %}" alt="questions-representation" class="questions-representation">
+        </div> 
+        {% endcache %}        
     </div>
 </div>
 

@@ -34,8 +34,9 @@ def vote(request, code):
     context['username'] = request.session['main']['username']
     context['admin'] = request.session['main']['admin']
     context['themes'] = Room.objects.get(code=code).themes.filter(active=True)
+    context['user_key'] = request.session['user_key']
+    context['admin_key'] = request.session.get('admin_key')
     messages.warning(request, 'Espere as perguntas carregarem para selecionar o tema')
-        
 
     return render(request, f'{BP}/vote.html', context)
 

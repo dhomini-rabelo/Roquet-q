@@ -1,8 +1,9 @@
-from Support.code.apps._room.create_room import get_room_code, create_an_room
+from Support.code.apps._room.create_room import get_room_code, create_an_room, create_admin_key
 from Support.code.apps._room.enter_room import create_main_session, validate_room_entry
 from Support.code.apps._room import send_errors_of_room, get_username_for_url
 from Support.code.utils import field_exists
-from django.shortcuts import redirect, render, get_object_or_404
+from Support.code.apps import generate_key
+from django.shortcuts import redirect, render
 from django.http import Http404
 from .models import Room
 
@@ -29,11 +30,12 @@ def create_room(request):
         operation = create_an_room(request)
         if operation['status'] == 'success':
             create_main_session(request, admin=True)
+            create_admin_key(request, request.POST.get('code'))
             return redirect('settings', request.POST.get('code'))
         else:
             send_errors_of_room(request, operation['errors'])
             username = get_username_for_url(request)
-            return redirect(f'/entrar-na-sala{username}')
+            return redirect(f'/criar-sala{username}')
             
     return render(request, f'{BP}/create_room.html', context)
 
@@ -42,7 +44,6 @@ def create_room(request):
 def enter_room(request):
     context = dict()
     if request.method == 'GET':
-        print(request.GET)
         username = request.GET.get('username')
         context['username'] = username if username is not None else ''
     

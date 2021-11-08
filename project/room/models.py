@@ -7,7 +7,7 @@ from django.db.models.fields.related import ManyToManyField
 class Room(Model):
     creator = CharField(max_length=128, default='', verbose_name='Criador')
     code = PositiveIntegerField('Código', unique=True)
-    password_admin = CharField('Senha de moderador(encriptada)', max_length=128, default='admin')
+    password_admin = CharField('Senha (hash)', max_length=128, default='admin')
     visits = PositiveIntegerField('Visitas', default=0)
     
 

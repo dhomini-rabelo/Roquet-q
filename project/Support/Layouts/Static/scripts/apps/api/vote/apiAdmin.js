@@ -1,6 +1,6 @@
 import {asyncGet, asyncPut} from './../base.js'
 import {renderQuestions} from './renderAdmin.js'
-import {sendVotes} from './coreAdmin.js'
+import {sendVotes, getKey} from './coreAdmin.js'
 import {activeSelects, disableSelects} from './support.js'
 import {activeChangeVoteImage} from '../../asks/changeVoteImage.js'
 
@@ -10,7 +10,8 @@ let currentRoomCode = document.querySelector('input#code').value
 
 export function vote(questionId, action) {
     let url = `http://localhost:8000/api/${currentRoomCode}/lista-melhores-perguntas/${questionId}`
-    let bodyHttp = {"process": action}
+    let key = getKey(action)
+    let bodyHttp = {"process": action, "key": key}
     asyncPut(url, bodyHttp)
 }
 

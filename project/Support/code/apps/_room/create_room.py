@@ -1,9 +1,11 @@
 from Support.code.core import get_post_form_errors
 from Support.code.validators import validate_unique
 from Support.code.utils import filters
-from room.models import Room
 from random import randint
 import hashlib
+from Support.code.apps import generate_key
+from room.models import Room
+from asks.models import AdminKey
 
 
 def get_room_code():
@@ -34,3 +36,10 @@ def create_an_room(request):
     else:
         return {'status': 'error', 'errors': form_errors}
 
+
+def create_admin_key(request, code):
+    request.session['admin_key'] = generate_key()
+    room = Room.objects.get(code=code)
+    new_key = AdminKey.objects.create(key=request.session['admin_key'], room=room)
+    new_key.save()
+        

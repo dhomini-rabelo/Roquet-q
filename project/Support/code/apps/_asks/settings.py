@@ -1,3 +1,4 @@
+from Support.code.apps._room.create_room import create_admin_key
 from Support.code.utils import filters
 from Support.code.checks import check_null
 from Support.code.core import get_post_form_errors
@@ -82,6 +83,7 @@ def try_update_for_admin(request, code):
     
     if isinstance(password, str) and admin_password == hashlib.md5(password.encode()).hexdigest():
         request.session['main']['admin'] = True
+        create_admin_key(request, code)
         messages.success(request, 'Agora você é administrador')
     else:
         messages.error(request, 'Senha de administrador incorreta')

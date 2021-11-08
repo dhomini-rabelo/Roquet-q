@@ -1,6 +1,8 @@
 from Support.code.core import get_post_form_errors
 from Support.code.utils import filters
+from Support.code.apps import generate_key
 from room.models import Room
+from asks.models import UserKey
 
 
 
@@ -30,10 +32,14 @@ def create_main_session(request, admin=False):
     request.session.flush()
     request.session['main'] = {
         'username': username, 'admin': admin,
-        'my_questions': [], 'voted_questions': []
     }
     request.session['code'] = code
+    request.session['user_key'] = generate_key()
     room = Room.objects.get(code=code)
     room.visits += 1
+    new_key = UserKey.objects.create(key=request.session['user_key'], room=room)
+    
+    
     room.save()
+    new_key.save()
     

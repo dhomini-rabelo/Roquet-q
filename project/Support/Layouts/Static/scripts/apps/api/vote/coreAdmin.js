@@ -49,3 +49,18 @@ function addQuestionInSavedQuestions(question){
         localStorage.setItem('savedQuestions', JSON.stringify(array))
     }
 }
+
+export function getKey(action){
+    let UserKey = document.querySelector('input#user_key').value
+    let AdminKey = document.querySelector('input#admin_key').value
+    switch (action) {
+        case 'up':
+            return UserKey
+        case 'down':
+            return UserKey
+        case 'mark':
+            return AdminKey
+        default:
+            return ''
+    }
+}

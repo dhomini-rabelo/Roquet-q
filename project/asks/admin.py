@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question
+from .models import Question, UsedKeys, UserKey, AdminKey
 
 
 #* ACTIONS
@@ -34,6 +34,32 @@ class QuestionAdmin(admin.ModelAdmin):
     @admin.display
     def score(self, question):
         return str(question.up_votes - question.down_votes)
-        
-       
     
+    
+
+@admin.register(UserKey)
+class UserKeyAdmin(admin.ModelAdmin):   
+    list_display = 'key', 'room',
+    list_display_links = 'key',
+    list_per_page = 80  
+    
+    
+         
+@admin.register(AdminKey)
+class AdminKeyAdmin(admin.ModelAdmin):   
+    list_display = 'key', 'room',
+    list_display_links = 'key',
+    list_per_page = 80      
+    
+    
+     
+@admin.register(UsedKeys)
+class UsedKeysAdmin(admin.ModelAdmin):   
+    list_display = 'room', 'question',
+    list_display_links = 'question',
+    list_per_page = 80  
+       
+    @admin.display(description='Sala')
+    def room(self, obj):
+        return str(obj.question.theme.room.code)       
+
