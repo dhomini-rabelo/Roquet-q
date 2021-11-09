@@ -1,11 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from Support.code.apps._asks.ask import register_question, validate_question, verify_process__ask, delete_question, get_none_themes
+from Support.code.core import get_post_form_errors
 from .support import get_questions_by_room_code
-from rest_framework.decorators import api_view
 from rest_framework.response import  Response
 from rest_framework import  status, generics
 from rest_framework.views import APIView
-from .serializers import QuestionSerializer, VoteSerializer, DataRoomSerializer
+from .serializers import QuestionForCreateSerializer, QuestionForVoteSerializer, DataRoomSerializer
 from asks.models import UsedKeys, UserKey, AdminKey, Question
 from room.models import Room
 from django.db.models import Q, F
@@ -16,16 +16,16 @@ from pprint import pprint
 
 
 
-class CreateQuestionsView(APIView):
+class ListAndCreateQuestionsView(APIView):
 
     def get(self, request, code):
         queryset = get_questions_by_room_code(code)
-        serializer = QuestionSerializer(queryset, many=True)
+        serializer = QuestionForCreateSerializer(queryset, many=True)
         return Response(serializer.data)
     
     def post(self, request, code):
         validation = validate_question(request.data, code)
-        serializer = QuestionSerializer(data=request.data)
+        serializer = QuestionForCreateSerializer(data=request.data)
         if validation['status'] == 'valid' and serializer.is_valid():
             serializer.save()
             response = dict(serializer.data) | {'status': 'valid'}
@@ -40,24 +40,24 @@ class ListBestQuestionsView(APIView):
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=True)
         queryset = questions.filter(answered=False).annotate(score=F('up_votes')-F('down_votes')).order_by('-score')
-        serializer = VoteSerializer(queryset, many=True)
+        serializer = QuestionForVoteSerializer(queryset, many=True)
         return Response(serializer.data)
     
     
     
-class ListFinalizedQuestions(APIView):
+class ListFinalizedQuestionsView(APIView):
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=False)
         queryset = questions.annotate(score=F('up_votes')-F('down_votes')).order_by('-score', '-up_votes')
-        serializer = VoteSerializer(queryset, many=True)
+        serializer = QuestionForVoteSerializer(queryset, many=True)
         return Response(serializer.data)
 
 
-class ListFinalizedAnsweredQuestions(APIView):
+class ListFinalizedAndAnsweredQuestionsView(APIView):
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=False)
         queryset = questions.filter(answered=True).order_by('creation')
-        serializer = VoteSerializer(queryset, many=True)
+        serializer = QuestionForVoteSerializer(queryset, many=True)
         return Response(serializer.data)
     
     
@@ -65,7 +65,7 @@ class QuestionDetailView(APIView):
     
     def get(self, request, code, id):
         question = get_object_or_404(get_questions_by_room_code(code, active=True), id=id)
-        serializer = VoteSerializer(question)
+        serializer = QuestionForVoteSerializer(question)
         return Response(serializer.data)
     
     def put(self, request, code, id):
@@ -81,21 +81,38 @@ class QuestionDetailView(APIView):
         process = data.get('process')
         key = data.get('key')
         
+        fv = [
+            [data, 'str', 'data', []],
+            [key, 'str', 'data', []],
+        ]
+        
+        errors = get_post_form_errors(fv, api=True)
+        
         if (isinstance(process, str) and isinstance(process, str)):
-            if (process == 'up' and key in user_keys) and (key not in used_keys):
-                question.up_votes += 1
+            if process in ['up', 'down', 'pass']:
+                if key not in user_keys:
+                    return Response({'key': 'Chave não identificada'}, status=status.HTTP_400_BAD_REQUEST) 
+                elif key not in used_keys:
+                    return Response({'key': 'Chave já foi usada'}, status=status.HTTP_400_BAD_REQUEST) 
+                
+                if process == 'up':
+                    question.up_votes += 1
+                elif process == 'down':
+                    question.down_votes += 1
+                    
                 storage.keys.add(UserKey.objects.get(key=key))
-            elif (process == 'down' and key in user_keys) and (key not in used_keys):
-                question.down_votes += 1
-                storage.keys.add(UserKey.objects.get(key=key))
-            elif (process == 'pass' and key in user_keys) and (key not in used_keys):
-                storage.keys.add(UserKey.objects.get(key=key))
-            elif process == 'mark' and key in admin_keys:
+                    
+                question.save()
+                    
+            elif process == 'mark':
+                if key not in admin_keys:
+                    return Response({'key': 'Você não tem permissão para fazer isso'}, status=status.HTTP_400_BAD_REQUEST) 
                 question.answered = True
-            question.save()
+                question.save()
+                
             return Response({'status': 'success'})
             
-        return Response({'status': 'error'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response(errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
