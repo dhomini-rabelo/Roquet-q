@@ -5,14 +5,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import  Response
 from rest_framework import  status, generics
 from rest_framework.views import APIView
-from .serializers import QuestionSerializer, VoteSerializer
+from .serializers import QuestionSerializer, VoteSerializer, DataRoomSerializer
 from asks.models import UsedKeys, UserKey, AdminKey, Question
 from room.models import Room
 from django.db.models import Q, F
 import json
+from pprint import pprint
 
-
-test_header = {'token': 'adasdassd45a541da5d1sa51sa5ds1sda5', "Access-Control-Allow-Origin": "*"}
 
 
 
@@ -30,8 +29,8 @@ class CreateQuestionsView(APIView):
         if validation['status'] == 'valid' and serializer.is_valid():
             serializer.save()
             response = dict(serializer.data) | {'status': 'valid'}
-            return Response(response, status=status.HTTP_201_CREATED, headers = test_header)
-        return Response(validation, status=status.HTTP_400_BAD_REQUEST,  headers = test_header)
+            return Response(response, status=status.HTTP_201_CREATED)
+        return Response(validation, status=status.HTTP_400_BAD_REQUEST)
     
 
 
@@ -94,6 +93,26 @@ class QuestionDetailView(APIView):
             elif process == 'mark' and key in admin_keys:
                 question.answered = True
             question.save()
-            return Response({'status': 'success'}, headers = test_header)
+            return Response({'status': 'success'})
             
         return Response({'status': 'error'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+class DataRoomView(APIView):
+    
+    def get(self, request, code):
+        room = get_object_or_404(Room, code=code)
+        serializer = DataRoomSerializer(room)
+        response = dict(serializer.data)
+        total_of_questions = 0
+        
+        for index, theme in enumerate(response['themes']):
+            total_questions_of_theme = len(theme['questions'])
+            response['themes'][index]['questions'] = total_questions_of_theme
+            total_of_questions += total_questions_of_theme
+            
+        response['all_questions'] = total_of_questions
+            
+        return Response(response)

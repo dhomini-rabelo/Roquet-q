@@ -58,13 +58,17 @@ def records_view(request, code):
 @main_sessions_required
 def settings_view(request, code):
     # initial flow
-    context = dict()
-    context['code'] = code
-    context['room'] = Room.objects.get(code=code)
-    context['total_of_questions'] = get_total_of_questions(context['room'])
-    
+    if request.method == 'GET':
+        context = dict()
+        context['code'] = code
+        context['room'] = Room.objects.get(code=code)
+        context['total_of_questions'] = get_total_of_questions(context['room'])
+        # end flow
+        context['admin'] = request.session['main']['admin']
+        context['active_themes'] = context['room'].themes.filter(active=True).only('name')
+        context['disabled_themes'] = context['room'].themes.filter(active=False).only('name')    
     # main flow
-    if request.method == 'POST':
+    elif request.method == 'POST':
         process = verify_process__settings(request)
         if process['action'] == 'create theme':
             create_theme(request, code)
@@ -76,10 +80,7 @@ def settings_view(request, code):
         return redirect('settings', code)
         
             
-    # end flow
-    context['admin'] = request.session['main']['admin']
-    context['active_themes'] = context['room'].themes.filter(active=True).only('name')
-    context['disabled_themes'] = context['room'].themes.filter(active=False).only('name')     
+ 
     
     return render(request, f'{BP}/settings.html', context)
 
