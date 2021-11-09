@@ -25,7 +25,7 @@ class ThemeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Theme
-        fields = 'name', 'creator', 'questions',
+        fields = 'name', 'creator', 'questions', 'active'
 
         
 class DataRoomSerializer(serializers.ModelSerializer):

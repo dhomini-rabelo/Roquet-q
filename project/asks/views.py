@@ -62,11 +62,8 @@ def settings_view(request, code):
         context = dict()
         context['code'] = code
         context['room'] = Room.objects.get(code=code)
-        context['total_of_questions'] = get_total_of_questions(context['room'])
-        # end flow
         context['admin'] = request.session['main']['admin']
-        context['active_themes'] = context['room'].themes.filter(active=True).only('name')
-        context['disabled_themes'] = context['room'].themes.filter(active=False).only('name')    
+        
     # main flow
     elif request.method == 'POST':
         process = verify_process__settings(request)
