@@ -9,7 +9,7 @@ export function sendVotes(event) {
     updateQuestion(index, page)
     setTimeout(() => {
         vote(questionId, action)
-    }, 3500)
+    }, 2000)
 }
 
 function updateQuestion(index, page){
