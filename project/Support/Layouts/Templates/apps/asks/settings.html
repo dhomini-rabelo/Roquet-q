@@ -66,6 +66,10 @@
 {% endblock %}
 
 {% block javascript %}
+{% if admin %}
+<script type="module" src="{% static  'scripts/apps/api/settings/apiAdmin.js' %}"></script>
+{% else %}
 <script type="module" src="{% static  'scripts/apps/api/settings/api.js' %}"></script>
+{% endif %}
 <script src="{% static  'scripts/apps/asks/settings.js' %}"></script>
 {% endblock %}
