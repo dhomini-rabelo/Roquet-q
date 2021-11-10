@@ -17,6 +17,9 @@ function renderThemesForApp1(themes) {
             disabledThemes.unshift(theme.name)
         }
     })
+    console.log(themes)
+    console.log(activeThemes)
+    console.log(disabledThemes)
     if (activeThemes.length !== 0){
         renderArea.innerHTML += '<h1>Ativos</h1>'
     }
@@ -24,8 +27,8 @@ function renderThemesForApp1(themes) {
         renderArea.innerHTML += `
         <form class="theme" method="POST">
             <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-            <span>${theme.name}</span>
-            <input type="hidden" name="theme" id="id_theme" value="${theme.name }">
+            <span>${theme}</span>
+            <input type="hidden" name="theme" id="id_theme" value="${theme}">
             <button type="submit" class="icon-text" name="action" id="id_action" value="disable">
                 <img src="/static/assets/apps/asks/settings/remove.png" alt="disable-img">
                 <span>Desativar</span>

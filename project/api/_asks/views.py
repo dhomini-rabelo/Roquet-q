@@ -91,8 +91,8 @@ class QuestionDetailView(APIView):
         if (isinstance(process, str) and isinstance(process, str)):
             if process in ['up', 'down', 'pass']:
                 if key not in user_keys:
-                    return Response({'key': 'Chave não identificada'}, status=status.HTTP_400_BAD_REQUEST) 
-                elif key not in used_keys:
+                    return Response({'key': 'Chave não existe'}, status=status.HTTP_400_BAD_REQUEST) 
+                elif key in used_keys:
                     return Response({'key': 'Chave já foi usada'}, status=status.HTTP_400_BAD_REQUEST) 
                 
                 if process == 'up':

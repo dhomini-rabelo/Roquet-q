@@ -75,9 +75,8 @@ DATABASES = {
         "PASSWORD": "postgres",
         "HOST": "db",
         "PORT": 5432,
-    }
+    },
 }
-
 
 
 AUTH_PASSWORD_VALIDATORS = [

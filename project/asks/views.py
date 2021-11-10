@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from Support.code.apps._asks.decorators import main_sessions_required
 from Support.code.apps._asks.settings import verify_process__settings, create_theme, try_update_for_admin, disable_theme, get_total_of_questions
 from Support.code.apps._asks.ask import delete_question
+from Support.code.apps import generate_key
 from room.models import Room
 from django.contrib import messages
 

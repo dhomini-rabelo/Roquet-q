@@ -15,8 +15,9 @@ def generate_key():
         
     user_keys = UserKey.objects.values_list('key', flat=True)
     admin_keys = AdminKey.objects.values_list('key', flat=True)
+    used_keys = list(user_keys) + list(admin_keys)
     
-    if key in (user_keys + admin_keys):
+    if key in used_keys:
         return generate_key()
 
     return key

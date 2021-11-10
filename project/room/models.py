@@ -22,7 +22,7 @@ class Room(Model):
 class Theme(Model):
     creator = CharField(max_length=128, default='', verbose_name='Criador')
     name = CharField(max_length=128, verbose_name='Nome')
-    active = BooleanField('Ativa', default=True)
+    active = BooleanField('Ativo', default=True)
     room = ForeignKey(Room, on_delete=CASCADE, related_name='themes', null=True, verbose_name='Sala')
     
     def __str__(self):
