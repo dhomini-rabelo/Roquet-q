@@ -60,5 +60,11 @@ class RoomTest(TestCase):
         theme_02 = Theme.objects.create(name='teste 02', room=self.room)
         self.room.themes.add(theme_01, theme_02)
         self.assertEqual(list(self.room.themes.all()), [theme_01, theme_02])
-        
+
+    def tearDown(self):
+        # type validation
+        self.assertTrue(isinstance(self.room.creator, str))
+        self.assertTrue(isinstance(self.room.code, int))
+        self.assertTrue(isinstance(self.room.password_admin, str))
+        self.assertTrue(isinstance(self.room.visits, int))
         

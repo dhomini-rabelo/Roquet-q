@@ -36,6 +36,10 @@ class UserKeyTest(TestCase):
     def test_relationship_foreign_key(self):
         room = Room.objects.get(code=self.user_key.room.code)
         self.assertIn(self.user_key, room.user_keys.all())
+        
+    def tearDown(self):
+        # type validation
+        self.assertTrue(isinstance(self.user_key.key, str))
 
 
 class AdminKeyTest(TestCase):
@@ -70,6 +74,9 @@ class AdminKeyTest(TestCase):
         room = Room.objects.get(code=self.admin_key.room.code)
         self.assertIn(self.admin_key, room.admin_keys.all())
 
+    def tearDown(self):
+        # type validation
+        self.assertTrue(isinstance(self.admin_key.key, str))
 
 class UsedKeysTest(TestCase):
 

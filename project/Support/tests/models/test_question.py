@@ -58,3 +58,13 @@ class QuestionTest(TestCase):
         theme = Theme.objects.get(id=self.question.theme.id)
         self.assertIn(self.question, theme.questions.all())
         
+    def tearDown(self):
+        # type validation
+        self.assertTrue(isinstance(self.room.creator, str))
+        self.assertTrue(isinstance(self.room.text, str))
+        self.assertTrue(isinstance(self.room.answered, bool))
+        self.assertTrue(isinstance(self.room.creation, datetime))
+        self.assertTrue(isinstance(self.room.up_votes, int))     
+        self.assertTrue(isinstance(self.room.down_votes, int))     
+  
+        

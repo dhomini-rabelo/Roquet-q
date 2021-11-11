@@ -62,3 +62,9 @@ class ThemeTest(TestCase):
         question_02 = Question.objects.create(creator='teste 02', text='teste2', theme=self.theme)
         self.theme.questions.add(question_01, question_02)
         self.assertEqual(list(self.theme.questions.all()), [question_01, question_02])
+        
+    def tearDown(self):
+        # type validation
+        self.assertTrue(isinstance(self.theme.creator, str))
+        self.assertTrue(isinstance(self.theme.name, str))
+        self.assertTrue(isinstance(self.theme.active, bool))
