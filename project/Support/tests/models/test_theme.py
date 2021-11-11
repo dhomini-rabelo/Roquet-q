@@ -17,17 +17,19 @@ class ThemeTest(TestCase):
         self.assertEqual(self.theme.active, True)
         
     @expectedFailure
-    def test_size(self):
+    def test_name_size(self):
         # error because "max_length" was outdated
-        word_test = 'x' * 129
-        self.theme.name = word_test
-        self.theme.creator = word_test
+        self.theme.name = 'x' * 129
+        self.theme.save()
+        
+    @expectedFailure
+    def test_creator_size(self):
+        # error because "max_length" was outdated
+        self.theme.creator = 'x' * 129
         self.theme.save()
 
     def test_changes(self):
-        self.assertEqual(self.theme.creator, '')
         self.assertEqual(self.theme.name, 'test')
-        self.assertEqual(self.theme.active, True)
         self.assertEqual(self.theme.room, self.room)
         self.theme.creator = 'new_creator'
         self.theme.name = 'new_test'
@@ -50,11 +52,11 @@ class ThemeTest(TestCase):
     def test_str_method(self):
         self.assertEqual(str(self.theme), self.theme.name)
         
-    def test_relationship_many_to_1(self):
+    def test_relationship_foreign_key(self):
         room = Room.objects.get(code=self.theme.room.code)
         self.assertIn(self.theme, room.themes.all())
         
-    def test_relationship_many_to_many(self):
+    def test_relationship_many_to_1(self):
         self.assertEqual(list(self.theme.questions.all()), [])
         question_01 = Question.objects.create(creator='teste 01', text='teste1', theme=self.theme)
         question_02 = Question.objects.create(creator='teste 02', text='teste2', theme=self.theme)

@@ -16,18 +16,19 @@ class RoomTest(TestCase):
         self.assertEqual(self.room.visits, 0)
         
     @expectedFailure
-    def test_size(self):
+    def test_creator_size(self):
         # error because "max_length" was outdated
-        word_test = 'x' * 129
-        self.room.creator = word_test
-        self.room.password_admin = word_test
+        self.room.creator = 'x' * 129
+        self.room.save()
+
+    @expectedFailure
+    def test_password_admin_size(self):
+        # error because "max_length" was outdated
+        self.room.password_admin = 'x' * 129
         self.room.save()
 
     def test_changes(self):
-        self.assertEqual(self.room.creator, '')
-        self.assertEqual(self.room.password_admin, 'admin')
         self.assertEqual(self.room.code, 123456)
-        self.assertEqual(self.room.visits, 0)
         self.room.creator = 'new_creator'
         self.room.password_admin = 'new_admin'
         self.room.code = 654321
@@ -53,7 +54,7 @@ class RoomTest(TestCase):
     def test_str_method(self):
         self.assertEqual(str(self.room), f'Sala {self.room.code}')
         
-    def test_relationship_many_to_many(self):
+    def test_relationship_many_to_1(self):
         self.assertEqual(list(self.room.themes.all()), [])
         theme_01 = Theme.objects.create(name='teste 01', room=self.room)
         theme_02 = Theme.objects.create(name='teste 02', room=self.room)

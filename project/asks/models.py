@@ -38,7 +38,7 @@ class AdminKey(Model):
     
 class UsedKeys(Model):
     question = OneToOneField(Question, on_delete=CASCADE, related_name='used_keys', verbose_name='Pergunta')
-    keys = ManyToManyField(UserKey, verbose_name='Chaves usadas por usuários para manipular contagem de votos')
+    keys = ManyToManyField(UserKey, verbose_name='Chaves usadas')
 
     class Meta:
         verbose_name = 'Chaves usadas'
