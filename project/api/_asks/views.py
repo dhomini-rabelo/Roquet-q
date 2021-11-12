@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from .serializers import QuestionForCreateSerializer, QuestionForVoteSerializer, DataRoomSerializer
 from asks.models import UsedKeys, UserKey, AdminKey, Question
 from room.models import Room
-from django.db.models import Q, F
+from django.db.models import F
 from django.http import QueryDict
 import json
 from pprint import pprint
@@ -40,7 +40,7 @@ class ListBestQuestionsView(APIView):
 
     def get(self, request, code):
         questions = get_questions_by_room_code(code, active=True)
-        queryset = questions.filter(answered=False).annotate(score=F('up_votes')-F('down_votes')).order_by('-score')
+        queryset = questions.filter(answered=False).annotate(score=F('up_votes')-F('down_votes')).order_by('-score', '-up_votes')
         serializer = QuestionForVoteSerializer(queryset, many=True)
         return Response(serializer.data)
     
