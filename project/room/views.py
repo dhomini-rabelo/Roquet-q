@@ -2,7 +2,6 @@ from Support.code.apps._room.create_room import get_room_code, create_an_room, c
 from Support.code.apps._room.enter_room import create_main_session, validate_room_entry
 from Support.code.apps._room import send_errors_of_room, get_username_for_url
 from Support.code.utils import field_exists
-from Support.code.apps import generate_key
 from django.shortcuts import redirect, render
 from django.http import Http404
 from .models import Room
