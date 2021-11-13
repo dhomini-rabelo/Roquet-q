@@ -13,7 +13,7 @@ from asks.models import Question, UserKey, AdminKey
 
 
 
-class ViewMethodsTest(TestCase):
+class RoomViewMethodsTest(TestCase):
     
     def setUp(self):     
         Room.objects.create(creator='admin_', code=654321)
@@ -46,8 +46,7 @@ class ViewMethodsTest(TestCase):
         room = Room.objects.get(code=123456)
         self.assertEqual(room.creator, 'admin')
         self.assertEqual(room.visits, 1)
-
-        
+  
     def test_enter_room_view(self):
         data = {
             'username': 'test', 'code': '654321'

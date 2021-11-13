@@ -60,11 +60,11 @@ class QuestionTest(TestCase):
         
     def tearDown(self):
         # type validation
-        self.assertTrue(isinstance(self.room.creator, str))
-        self.assertTrue(isinstance(self.room.text, str))
-        self.assertTrue(isinstance(self.room.answered, bool))
-        self.assertTrue(isinstance(self.room.creation, datetime))
-        self.assertTrue(isinstance(self.room.up_votes, int))     
-        self.assertTrue(isinstance(self.room.down_votes, int))     
+        self.assertTrue(isinstance(self.question.creator, str))
+        self.assertTrue(isinstance(self.question.text, str))
+        self.assertTrue(isinstance(self.question.answered, bool))
+        self.assertTrue(isinstance(self.question.creation, datetime))
+        self.assertTrue(isinstance(self.question.up_votes, int))     
+        self.assertTrue(isinstance(self.question.down_votes, int))     
   
         
