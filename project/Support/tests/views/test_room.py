@@ -19,6 +19,10 @@ class RoomViewMethodsTest(TestCase):
         Room.objects.create(creator='admin_', code=654321)
         self.client = Client()
     
+    def test_home_status(self):
+        request = self.client.get('/')
+        self.assertEqual(request.status_code, 200)
+    
     def test_get_room_code(self):
         code = get_room_code()
         self.assertTrue(validate_unique(Room.objects, 'code', code))

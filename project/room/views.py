@@ -4,8 +4,9 @@ from Support.code.apps._room import send_errors_of_room, get_username_for_url
 from Support.code.utils import field_exists
 from django.shortcuts import redirect, render
 from django.http import Http404
-from .models import Room
-
+from .models import Room, Theme
+from asks.models import Question
+from time import sleep
 
 BP = 'apps/room' # base path
 
@@ -86,3 +87,49 @@ def code_room_shortcut(request, code):
 def logout(request):
     request.session.flush()
     return redirect('home')
+
+
+
+
+# TESTS
+TEST_CODE = 123456 # equal Support.tests.frontEnd.tests.QuestionCreationTest.code
+
+
+def setUp_view(request): # works as a setUp for StaticLiveServerTestCase
+    process = request.GET.get('process')
+    if isinstance(process, str):
+        if process == 'create_question':
+            if TEST_CODE in Room.objects.values_list('code', flat=True):
+                return render(request, 'blank.html')
+            room = Room.objects.create(creator='admin_', code=TEST_CODE)
+            theme = Theme.objects.create(creator='admin_', name='THEME_', room=room)
+    return render(request, 'blank.html')
+            
+            
+            
+def test_result_view(request): # check test result
+    process = request.GET.get('process')
+    if isinstance(process, str):
+        if process == 'create_question':
+            sleep(15)
+            room = Room.objects.filter(creator='admin_', code=TEST_CODE).first()
+            assert room is not None
+            themes_id = room.themes.values_list('id', flat=True)
+            question_text = 'test_question' # equal  Support.tests.frontEnd.tests.QuestionCreationTest.send_question
+            created_question = Question.objects.filter(text=question_text, theme__id__in=themes_id).first()
+            assert created_question is not None 
+    return render(request, 'blank.html')
+
+
+
+def tearDown_view(request): # works as a tearDown for StaticLiveServerTestCase
+    process = request.GET.get('process')
+    if isinstance(process, str):
+        if process == 'create_question':
+            room = Room.objects.filter(creator='admin_', code=TEST_CODE).first()
+            if room is not None:
+                room.delete()
+            
+    return render(request, 'blank.html')
+            
+            

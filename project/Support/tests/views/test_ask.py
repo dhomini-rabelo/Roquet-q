@@ -27,7 +27,25 @@ class AskViewMethodsTest(TestCase):
         self.assertEqual(request.status_code, 200)
         self.assertRedirects(request, '/654321/perguntar')        
         
-
+    def test_ask_status(self):
+        request = self.client.get('/654321/perguntar')
+        self.assertEqual(request.status_code, 200)    
+ 
+        
+    def test_vote_status(self):
+        request = self.client.get('/654321/votacao')
+        self.assertEqual(request.status_code, 200)    
+ 
+        
+    def test_records_status(self):
+        request = self.client.get('/654321/registros')
+        self.assertEqual(request.status_code, 200)    
+ 
+        
+    def test_home_status(self):
+        request = self.client.get('/654321/configuracoes')
+        self.assertEqual(request.status_code, 200)    
+ 
     def test_delete_question(self):
         question_for_delete_test = {
             'creator': 'admin_', 'text': 'text_test', 'theme': 'theme_test'
