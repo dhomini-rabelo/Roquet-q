@@ -24,6 +24,7 @@ Meu primeiro projeto usando DRF, este projeto ranqueia perguntas mais desejadas 
 <li>Docker</li>
 <li>Docker-compose</li>
 <li>Admin personalizado</li>
+<li>Bootstrap</li>
 </ul>
 <br>
 
@@ -94,7 +95,7 @@ Meu primeiro projeto usando DRF, este projeto ranqueia perguntas mais desejadas 
 
 <h2 id="how_to_use">🛠️ Como usar</h2>
 
-<p>Na raiz do projeto, rodar comando abaixo, simpes assim.</p>
+<p>Para usar você deve ter docker instalado na sua máquina, assim basta apenas rodar o comando abaixo:</p>
 
 ```
 docker-compose up --build
