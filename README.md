@@ -25,6 +25,7 @@ Meu primeiro projeto usando DRF, este projeto ranqueia perguntas mais desejadas 
 <li>Docker-compose</li>
 <li>Admin personalizado</li>
 <li>Bootstrap</li>
+<li>Testes</li>
 </ul>
 <br>
 
