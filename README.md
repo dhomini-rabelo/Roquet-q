@@ -9,7 +9,7 @@
 <h2>📖 Sobre</h2>
 
 <p>
-Meu primeiro projeto usando Django Rest Framework, este projeto ranqueia perguntas mais desejadas de uma live, assim o streamer pode responder as perguntas mais importantes pelo seu público.
+Meu primeiro projeto usando Django Rest Framework, este projeto ranqueia perguntas mais desejadas de uma live, assim o streamer pode responder as perguntas mais importantes escolhidas pelo seu público.
 </p>
 
 <h2 id="features">🚀 Features</h2>
